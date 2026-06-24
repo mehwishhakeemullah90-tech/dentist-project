@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Document</title>
+    <style>
+        /* Background */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+} 
+
+
+
+
+/* Container */
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* Card */
+.card {
+    width: 320px;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* Heading */
+.card h1 {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.card p {
+    font-size: 13px;
+    color: gray;
+    margin-bottom: 20px;
+}
+
+/* Inputs */
+.card input,
+.card select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    outline: none;
+    transition: 0.3s;
+}
+
+/* Focus effect */
+.card input:focus,
+.card select:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 5px rgba(79,172,254,0.5);
+}
+
+/* Button */
+.card button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    background: #4facfe;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Hover */
+.card button:hover {
+    background: #00c6ff;
+    transform: translateY(-2px);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+
+    <div class="card">
+
+        <h1>🏥 Dental Care System</h1>
+        <p>Create your account to continue</p>
+
+        <form id="form1" action="/register" method="POST">
+
+            <input type="text" name="name" placeholder="Full Name" required>
+
+            <input type="email" name="email" placeholder="Email Address" required>
+
+            <input type="password" name="password" placeholder="Password" required>
+
+            <select name="role" required>
+                <option value="">Select Role</option>
+                <option value="admin">Admin</option>
+                <option value="doctor">Doctor</option>
+                <option value="manager">Manager</option>
+                <option value="assistant">Assistant</option>
+                <option value="employee">Employee</option>
+            </select>
+            <div>
+            <button type="submit">Create Account</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+<script>
+$(document).ready(function () {
+
+    $('#form1 select[name="role"]').on('change', function () {
+
+        let role = $(this).val();
+
+        if (role === "admin") {
+            window.location.href = "/admin.html";
+        }
+
+        else if (role === "doctor") {
+            window.location.href = "/doctor.html";
+        }
+
+        else if (role === "manager") {
+            window.location.href = "/manager.html";
+        }
+
+        else if (role === "assistant") {
+            window.location.href = "/assistant.html";
+        }
+
+        else if (role === "employee") {
+            window.location.href = "/employee.html";
+        }
+
+        else if (role === "appointment") {
+            window.location.href = "/appointment.html";
+        }
+
+    });
+
+});
+
+</script>
+</body>
+</html>

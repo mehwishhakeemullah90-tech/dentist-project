@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+
+    <title>Online appointment</title>
+</head>
+<style>
+    * {
+        margin: 0px;
+    }
+
+    html {
+        margin: 0px;
+        scroll-behavior: smooth;
+    }
+
+    body {
+        margin: 0px;
+        background-color: #f5f7fb;
+
+
+    }
+
+
+    .navbar {
+        background: #233b7a;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+
+    .child-nav1 {
+        display: flex;
+        gap: 100px;
+    }
+
+    .child-nav2 {
+        display: flex;
+        gap: 15px;
+    }
+
+    .navcontainer {
+        display: flex;
+        gap: 10px;
+        margin-left: 506px;
+    }
+
+    .search-box {
+        border-left: 3px solid white;
+        background: #233b7a;
+        /* padding-left: 20px; */
+        align-items: center;
+        cursor: pointer;
+    }
+
+    /* #container2 {
+        display: grid;
+        grid-template-columns: auto 1fr 1fr 1fr;
+        padding: 20px;
+        gap: 63px;
+        margin-top: 301px;
+        margin-left: 42px;
+    }
+
+    #child-div2 {
+        height: 411px;
+        padding: 10px;
+        background-color: black;
+        border: 1px solid black;
+        font-size: 30px;
+        text-align: center;
+        margin-top: -27px;
+        width: 355px;
+        border-radius: 10px;
+        transition: all 0.4s ease-in-out;
+        color: white;
+        font-size: large;
+
+    }
+
+    .child-div2:hover {
+        transform: scale(1.1);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 1.10);
+    }
+
+    .container2 .vedio2 {
+
+        width: 101%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .childgrid {
+        margin-top: -260px;
+    } */
+
+    .side1 {
+        margin-top: 102px;
+        font-size: x-large;
+    }
+
+    .child {
+        height: 204px;
+        font-size: medium;
+        text-align: left;
+        padding: 10px;
+        margin: 10p
+    }
+
+    img {
+        height: 100vh;
+        width: 100vh;
+    }
+
+    .imgicon {
+        height: 30px;
+        width: 30px;
+        color: #f1f1f1;
+        cursor: pointer;
+    }
+
+    .social-icons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .container1 {
+        height: 62vh;
+        width: 100%;
+    }
+
+    .vedio1 {
+        height: 144%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    .con1-child {
+        display: flex;
+        justify-content: space-around;
+        position: relative;
+        padding: 20px;
+        height: 73px;
+        background: rgba(0, 0, 0, 0.3);
+        align-items: center;
+        margin-top: -91vh;
+
+
+    }
+
+    .con1-child a {
+        color: black;
+        text-decoration: none;
+        padding: 20px;
+        border-radius: 5px;
+        transition: 0.3s;
+    }
+
+    .con1-child a:hover {
+        background: rgba(0, 0, 0, 0.3);
+        color: #233b7a;
+    }
+
+    .dropdown {
+        position: relative;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 40px;
+        left: 0;
+
+        background: rgba(0, 0, 0, 0.3);
+        width: 220px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+
+        z-index: 100;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content a {
+        display: block;
+        color: black;
+        padding: 12px;
+    }
+
+    .btn-blue1 {
+        background-color: #233b7a;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        font-size: large;
+        margin-top: 20px;
+    }
+
+
+    .side1 {
+        margin-top: -157px;
+        position: relative;
+    }
+
+    .side1-img {
+        height: 72vh;
+        width: 72vh;
+        opacity: 76%
+    }
+
+    .child-side {
+        padding: 15px;
+        font-size: medium;
+        align-items: center;
+        width: 327px;
+        justify-content: center;
+        margin-top: -142px;
+        margin-left: -522px;
+        z-index: 1;
+    }
+
+
+
+    .appointment-section {
+        margin-top: 176px;
+        padding: 60px 20px;
+        background: linear-gradient(180deg, rgba(35, 59, 122, 0.06), rgba(255, 255, 255, 0.92));
+    }
+
+    .appointment-card {
+        max-width: 1120px;
+        margin: 0 auto;
+        background: #ffffff;
+        border-radius: 24px;
+        box-shadow: 0 24px 64px rgba(15, 23, 42, 0.08);
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1.1fr 1fr;
+        gap: 2rem;
+        padding: 2.5rem
+    }
+
+    .appointment-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem
+    }
+
+    .appointmentForm {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1.5rem
+    }
+
+    .container3 {
+        display: flex;
+        height: 530px;
+        margin-top: 87px;
+        padding: 10px;
+        background-color: aqua;
+    }
+
+
+    .container4 {
+        position: relative;
+        width: 100%;
+        height: 44vh;
+        overflow: hidden;
+        margin-top: 120px;
+    }
+
+    .video4 {
+        position: absolute;
+        width: 166%;
+        height: 50vh;
+        object-fit: cover;
+        opacity: 0;
+        transition: translate(100%) scale(1.1);
+        transition: 1s ease-in-out;
+    }
+
+    .video4.active {
+        opacity: 1;
+        transition: translate(0) scale(1);
+    }
+
+    .con-child4 {
+        padding: 20px;
+        position: absolute;
+        width: 87%;
+        margin-left: 91px;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        color: white;
+
+        display: flex;
+        /* flex-direction: column; */
+        justify-content: center;
+        align-items: center;
+
+        z-index: 2;
+        text-align: center;
+    }
+
+    .container5 {
+        padding: 43px;
+        display: flex;
+        height: 300px;
+        align-items: center;
+        color: white;
+        position: relative;
+        margin-top: -36px;
+
+    }
+
+    .container5 #col1 {
+        padding: 20px;
+        border-radius: 20px 0 0 20px;
+        background-color: #21cdc0;
+        height: 300px;
+        margin-top: -48px;
+        align-items: left;
+        box-shadow: -5px 1px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .container5 #col2 {
+        padding: 20px;
+        background-color: #3851a2;
+        height: 300px;
+        margin-top: -48px;
+        box-shadow: 5px 1px 7px rgba(0, 0, 0, 5.5);
+
+    }
+
+    .container5 #col3 {
+        padding: 20px;
+        border-radius: 0 20px 20px 0;
+        background-color: #2d4990;
+        height: 300px;
+        margin-top: -48px;
+        box-shadow: 5px 1px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .container6 {
+        width: 100%;
+        /* background: #f5f9fc; */
+        /* background: linear-gradient(
+    135deg,
+    #5f6c7b,
+    #7fd8d1,
+    #ffffff
+); */
+    }
+
+    .child-con6 {
+        /* max-width: 1200px;
+    margin: auto; */
+        text-align: center;
+        justify-content: center;
+
+    }
+
+    .child-con6 h1 {
+        text-align: center;
+        font-size: 40px;
+        color: #0a4d68;
+        margin-bottom: 40px;
+        font-family: Arial, sans-serif;
+
+    }
+
+    .child-con6 .Con6 {
+        /* background: linear-gradient(135deg,#5f6c7b,#7fd8d1,ffffff); */
+        margin-bottom: 30px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: 0.3s ease;
+    }
+
+    .child-con6>.Con6:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .child-con6 p {
+        padding: 10px;
+        font-size: 18px;
+        line-height: 1.8;
+        color: #444;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
+
+    .child-con6 .con6 {
+        width: 100%;
+        height: 280px;
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    @media(max-width:768px) {
+
+        .child-con6 h1 {
+            font-size: 30px;
+        }
+
+        .child-con6 p {
+            font-size: 16px;
+        }
+
+        .child-con6 .Con6 {
+            height: 220px;
+        }
+    }
+
+
+
+    .con-emergency {
+        position: fixed;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 9999;
+    }
+
+    .emergency-btn {
+        display: flex;
+        background: rgba(220, 53, 69, 1);
+        color: white;
+        padding: 12px 16px;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+        transition: 0.3s ease;
+    }
+
+    .emergency-btn:hover {
+        background: #b02a37;
+        transform: scale(1.05);
+    }
+
+    .footer {
+        background: linear-gradient(135deg, #0f172a, #1e3a5f);
+        color: white;
+        margin-top: 80px;
+    }
+
+    .footer-container {
+        max-width: 1200px;
+        margin: auto;
+        padding: 50px 30px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+    }
+
+    .footer-box h3 {
+        margin-bottom: 15px;
+        color: #7dd3c0;
+        font-size: 22px;
+    }
+
+    .footer-box p,
+    .footer-box li {
+        color: #dbeafe;
+        line-height: 1.8;
+        list-style: none;
+    }
+
+    .footer-box ul {
+        padding: 0;
+    }
+
+    .footer-box a {
+        text-decoration: none;
+        color: #dbeafe;
+        transition: 0.3s;
+    }
+
+    .footer-box a:hover {
+        color: #7dd3c0;
+        padding-left: 8px;
+    }
+
+    .footer-bottom {
+        text-align: center;
+        padding: 18px;
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(0, 0, 0, 0.2);
+    }
+
+    .footer-bottom p {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    /* Fixed Admin Button */
+
+    .admin-fixed {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 1000;
+    }
+
+    .admin-fixed button {
+        background: #0d6efd;
+        color: white;
+        border: none;
+        padding: 12px 18px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: bold;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, .2);
+        transition: .3s;
+    }
+
+    .admin-fixed button:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Overlay */
+
+    .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, .5);
+
+        justify-content: center;
+        align-items: center;
+
+        z-index: 9999;
+    }
+
+    /* Login Box */
+
+    .login-box {
+        background: white;
+        width: 350px;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, .3);
+        position: relative;
+    }
+
+    .login-box h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .login-box input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-sizing: border-box;
+    }
+
+    .login-box button {
+        width: 100%;
+        padding: 12px;
+        background: #0d6efd;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .login-box button:hover {
+        background: #0b5ed7;
+    }
+
+    /* Close Button */
+
+    .close-btn {
+        position: absolute;
+        right: 15px;
+        top: 10px;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    /* .container6 {
+            width: 81%;
+            padding: 20px;
+            background-color: darkcyan;
+        }
+
+        .child-con6 {
+            width: 80%;
+            margin: auto;
+        }
+
+        iframe {
+            border-radius: 10px;
+            margin-top: 10px;
+        } */
+</style>
+
+<body>
+    <div class="container-fluid p-0">
+        <navbar class="navbar">
+            <div class="child-nav1">
+                <span>
+                    <p style="color:white">
+                        <img class="imgicon" src="images/tlephone.png" alt="Phone">0800-987558
+                    </p>
+
+                </span>
+
+                <span>
+                    <p style="color:white">
+                        <img class="imgicon" src="images/watssp.png" alt="WhatsApp">
+
+                        0345-9876987
+                    </p>
+                </span>
+
+                <div class="navcontainer">
+                    <img class="imgicon" src="images/facebook.png" alt="Facebook">
+
+                    <img class="imgicon" src="images/twitter.png" alt="Twitter">
+
+                    <img class="imgicon" src="images/youtbeee.png" alt="youtube">
+
+
+                    <input class="search-box" type="text" placeholder="Search...">
+                    <img src="images/search12.png" style="height: 30px; width: 30px;" alt="Search" class="searchbr">
+
+                </div>
+            </div>
+        </navbar>
+
+        <!-- --------------------------------------------- -->
+        <!-- --------------------------------------------- -->
+        <!-- --------------------------------------------- -->
+
+
+
+        <section class="container1">
+            <video class="vedio1" autoplay muted loop>
+                <source src="images/clinic.mp4" type="video/mp4">
+            </video>
+
+            <nav class="con1-child">
+
+                <a href="home.html"><b>Home</a></b>
+
+                <div class="dropdown">
+                    <a href="dentis/dentisform.html"><b>Dental Care</b></a>
+
+                    <div class="dropdown-content">
+                        <a href="#">👨‍⚕️ Dr. Ahmed Khan</a>
+                        <a href="#">🦷 Dental Specialist</a>
+                        <a href="#">🏆 BDS, FCPS Certified</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <a href="Orthopedic/cardioform.html"><b>Orthopedic</b></a>
+
+                    <div class="dropdown-content">
+                        <a href="#">👨‍⚕️ Dr. Hassan</a>
+                        <a href="#">🦴 Bone Specialist</a>
+                        <a href="#">🏆 MBBS, MS Orthopedics</a>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <a href="cardio/aurthoform
+                    .html"><b>Cardiology</b></a>
+
+                    <div class="dropdown-content">
+                        <a href="#">👨‍⚕️ Dr. Ali Raza</a>
+                        <a href="#">❤️ Heart Specialist</a>
+                        <a href="#">🏆 MBBS, FCPS Cardiology</a>
+                    </div>
+                </div>
+
+                <a href="service/service.html"><b>Services</b></a>
+                <a href="help/helpcare.html"><b>Help</b></a>
+
+            </nav>
+
+        </section>
+
+        <!-- **************************************** -->
+        <!-- **************************************** -->
+        <!-- **************************************** -->
+        <section class="appointment-section" id="appointmentSection">
+            <div class="appointment-card">
+                <div class="appointment-info">
+                    <h2>Book Your Appointment</h2>
+                    <p>Choose the right specialist and preferred time. Our team will contact you to confirm your
+                        consultation.</p>
+                    <ul>
+                        <li>Fast, simple appointment request</li>
+                        <li>Preferred specialist selection</li>
+                        <li>Secure patient information handling</li>
+                    </ul>
+                </div>
+                <form id="appointmentForm" class="appointment-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="patientName">Full Name</label>
+                            <input type="text" id="patientName" name="patientName" placeholder="Enter your full name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientEmail">Email</label>
+                            <input type="email" id="patientEmail" name="patientEmail" placeholder="name@example.com"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="patientPhone">Phone Number</label>
+                            <input type="tel" id="patientPhone" name="patientPhone" placeholder="03XXXXXXXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialty">Doctors</label>
+                            <select id="specialty" name="specialty" required>
+                                <option value="">Select Docter</option>
+                                <!-- <option>General Medicine</option> -->
+                                <option>Talha</option>
+                                <option>Javad</option>
+                                <option>Khadim</option>
+                                <!-- <option>Pediatrics</option> -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="appointmentDate">Preferred Date</label>
+                            <input type="date" id="appointmentDate" name="appointmentDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="appointmentTime">Preferred Time</label>
+                            <input type="time" id="appointmentTime" name="appointmentTime" required>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="appointmentMessage">Reason for Visit</label>
+                            <textarea id="appointmentMessage" name="appointmentMessage"
+                                placeholder="Tell us what you need" required></textarea>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Submit Request</button>
+                    <div id="appointmentStatus" class="form-status" aria-live="polite"></div>
+                </form>
+            </div>
+        </section>
+
+
+
+
+
+
+
+
+        <!-- ------------------------------------------------------------------------------------------------------------- -->
+        <!-- ------------------------------------------------------------------------------------------------------------- -->
+        <!-- ------------------------------------------------------------------------------------------------------------- -->
+        <div class="container4">
+
+            <video class="video4 active" autoplay muted loop>
+                <source src="images/teethvd.mp4" type="video/mp4">
+            </video>
+
+            <video class="video4" autoplay muted loop>
+                <source src="images/heartvd0.mp4" type="video/mp4">
+            </video>
+
+            <video class="video4" autoplay muted loop>
+                <source src="images/bounesvd.mp4" type="video/mp4">
+            </video>
+
+            <div class="con-child4">
+                <div class="con-cild44" <div class="col">
+                    <img src="images/iconheart.webp" style="width: 30px; height: 30px;" alt="Icon 1" class="img-fluid">
+                    One of three columns
+                </div>
+
+                <div class="col">
+                    <img src="images/iconheart2.webp" style="width: 30px; height: 30px;" alt="Icon 1" class="img-fluid">
+                    One of three columns
+                </div>
+
+                <div class="col">
+                    <img src="images/inconheart3.webp" style="width: 30px; height: 30px;" alt="Icon 1"
+                        class="img-fluid">
+                    One of three columns
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------------- -->
+        <!-- ---------------------------------------------------------------------- -->
+        <!-- ---------------------------------------------------------------------- -->
+
+        <div class="container5 text-center">
+            <div class="row" id="row5">
+                <div class="col" id="col1">
+                    <h3><b>Worldwide Centers</b></h3>
+                    <h1><b>28</b></h1>
+                    <p>Global network of advanced KKT orthopedic spine centers offering expert, non-surgical spinal care
+                        worldwide</p>
+                </div>
+                <div class="col" id="col2">
+                    <h3><b>Treatments Done Over</b></h3>
+                    <h1><b>100,000</b></h1>
+                    <p>Thousands have found relief through personalized, science-driven orthopedic and spine
+                        care—restoring mobility and comfort</p>
+                </div>
+                <div class="col" id="col3">
+                    <h3><b>Success Rate</b></h3>
+                    <h1><b>97%</b></h1>
+                    <p>High success rate with lasting pain relief, improved posture, and proven patient satisfaction.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------------------------------------------------------------------------------------------------------------------- -->
+        <!-- ---------------------------------------------------------------------------------------------------------------------- -->
+        <!-- ---------------------------------------------------------------------------------------------------------------------- -->
+
+        <!-- </div> -->
+        <div class="container6">
+            <div class="child-con6" id="child-con6">
+                <div class="Con6">
+                    <p>
+                        The PAF Hospital HCA Islamabad <br>
+                        209 Great Portland St, <br>
+                        pakistan
+                    </p>
+                    <div class="cn6">
+                        <iframe src="https://maps.google.com/maps?q=PAF%20Hospital%20Islamabad&z=15&output=embed"
+                            width="100%" height="300" style="border:0;" loading="lazy">
+                        </iframe>
+                    </div>
+                </div>
+
+                <br>
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-container">
+
+                <div class="footer-box">
+                    <img src="images/onlineapntmnt.png" style="height: 30px; width: 30px;">
+                    <br>
+                    <h3>Online Appointment</h3>
+                    <p>
+                        Book your appointment quickly and securely.
+                        Our team is available to assist patients
+                        with healthcare services and consultations.
+                    </p>
+                </div>
+
+                <div class="footer-box">
+                    <h3>📌
+                        <br>
+                        Quick Links
+                    </h3>
+                    <ul>
+                        <li><a href="#container1">Home</a></li>
+                        <li><a href="#container1">Doctors</a></li>
+                        <li><a href="#container2">Appointments</a></li>
+                        <li><a href="#container6">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-box">
+                    <h3>📞
+                        <br>
+                        Contact Info
+                    </h3>
+                    <p>+92 300 1234567</p>
+                    <p>info@hospital.com</p>
+                    <p>Islamabad, Pakistan</p>
+                </div>
+
+                <div class="footer-box">
+                    <img src="images/worknghurs.png" style="height: 30px; width: 30px;">
+                    <h3>Working Hours</h3>
+                    <p>Monday - Friday</p>
+                    <p>09:00 AM - 08:00 PM</p>
+                    <p>Emergency Service 24/7</p>
+                </div>
+
+            </div>
+            <div class="con-emergency">
+                <a href="#" class="emergency-btn" onclick="emergencyHelp()">
+                    Emergency Help
+                </a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 Online Appointment System | All Rights Reserved</p>
+            </div>
+        </footer>
+
+    </div>
+
+
+
+    <!-- Fixed Admin Button -->
+    <div class="admin-fixed">
+        <button onclick="openLogin()">SignUp</button>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" class="overlay">
+
+        <div class="login-box">
+
+            <span class="close-btn" onclick="closeLogin()"> × </span>
+
+            <h2>SignUp</h2>
+
+            <form action="/SignUp" method="POST">
+
+                <!-- <input type="text" name="username" placeholder="Admin ID" required>
+
+                <input type="password" name="password" placeholder="Password" required> -->
+
+                <button type="submit">
+                    SignUp
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        $(document).ready(function () {
+            $("#form1").submit(async function (e) {
+                e.preventDefault();
+                console.log("Form submitting...");
+                const name = $("#name").val();
+                const age = $("#age").val();
+                const idcardnum = $("#idcardnum").val();
+                const email = $("#email").val();
+                const tel = $("#tel").val();
+                const gender = $("input[name='g1']:checked").val();
+                const data = { name, age, idcardnum, email, tel, gender };
+                console.log("Sending data:", data);
+                try {
+                    const res = await fetch("/submit-form1",
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({
+                                name,
+                                age,
+                                idcardnum,
+                                email,
+                                tel,
+                                gender
+                            })
+                        });
+                    const result = await res.json();
+                    console.log("craeted:", result);
+                    Swal.fire({
+                        title: "Appointment Received!",
+                        text: "Our team will contact you soon.",
+                        icon: "success"
+                    });
+                    $("#form1")[0].reset();
+                }
+                catch (error) {
+                    console.log(error);
+
+                }
+            });
+            $("#form2").submit(async function (e) {
+                e.preventDefault();
+                console.log("Form submitting...");
+                const name = $("#name2").val();
+                const tel1 = $("#tel1").val();
+                const textarea2 = $("#textarea2").val();
+                const data = { name, tel1, textarea2 }
+                console.log("Sending data:", data);
+                try {
+                    const res = await fetch("/submit-form2",
+                        {
+                            method: "POST",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify({ name, tel1, textarea2 })
+                        });
+                    const result = await res.json();
+                    console.log("craeted:", result);
+                    Swal.fire({
+                        title: "Appointment Received!",
+                        text: "Our team will contact you soon.",
+                        icon: "success"
+                    });
+                    $("#form2")[0].reset();
+                } catch (error) { console.log(error); }
+            });
+        });
+
+        // SignUp 
+
+        function openLogin() {
+            document.getElementById("overlay").style.display = "flex";
+        }
+
+        function closeLogin() {
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        // signup k bad page
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

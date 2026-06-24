@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/emergency" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required>
+
+    <input type="tel" name="phone" placeholder="Phone Number" required>
+
+    <button type="submit">Emergency Help</button>
+</form>
+
+
+<script>
+    const express = require("express");
+const nodemailer = require("nodemailer");
+
+const app = express();
+
+app.use(express.urlencoded({ extended: true }));
+
+app.post("/emergency", async (req, res) => {
+
+    const { name, phone } = req.body;
+
+    const transporter = nodemailer.createTransport({
+        service: "gmail",
+        auth: {
+            user: "haleemamehtabgmail@gmail.com",
+            pass: "pakistan@1947"
+        }
+    });
+
+    await transporter.sendMail({
+        from: "haleemamehat@gmail.com",
+        to: "yourgmail0@gmail.com",
+        subject: "Emergency Alert",
+        text: `Emergency Request
+
+Name: ${name}
+Phone: ${phone}`
+    });
+
+    res.send("Emergency request sent!");
+});
+</script>
+</body>
+</html>

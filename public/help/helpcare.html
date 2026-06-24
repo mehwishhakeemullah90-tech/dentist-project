@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Help Center</title>
+
+<style>
+*{
+    margin: 0px;
+}
+
+body{
+    
+    background: #eef7ff;
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+}
+
+.help-container{
+    width:90%;
+    max-width:1000px;
+    background:white;
+    border-radius:20px;
+    padding:40px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.2);
+}
+
+h1{
+    text-align:center;
+    color:#0d6efd;
+    margin-bottom:15px;
+}
+
+.subtitle{
+    text-align:center;
+    color:#666;
+    margin-bottom:30px;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#f8f9fa;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 5px 20px rgba(0,0,0,0.15);
+}
+
+.card h3{
+    color:#0d6efd;
+    margin-bottom:10px;
+}
+
+.card p{
+    color:#555;
+    line-height:1.6;
+}
+
+.buttons{
+    text-align:center;
+    margin-top:35px;
+}
+
+.btn{
+    display:inline-block;
+    text-decoration:none;
+    padding:25px 25px;
+    margin:10px;
+    border-radius:30px;
+    font-weight:bold;
+    transition:0.3s;
+}
+
+.btn-primary{
+    background:#0d6efd;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#084fc7;
+}
+
+.btn-danger{
+    background:#dc3545;
+    color:white;
+}
+
+.btn-danger:hover{
+    background:#b02a37;
+}
+
+.health-tips{
+    margin-top:40px;
+    background:#eef7ff;
+    padding:25px;
+    border-radius:15px;
+}
+
+.health-tips h2{
+    color:#0d6efd;
+    margin-bottom:15px;
+}
+
+.health-tips ul{
+    padding-left:20px;
+}
+
+.health-tips li{
+    margin-bottom:10px;
+    color:#444;
+}
+
+footer{
+    text-align:center;
+    margin-top:30px;
+    color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<div class="help-container">
+
+    <h1>🏥 Help Center</h1>
+    <p class="subtitle">
+        We're here to support your healthcare needs 24/7.
+    </p>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>📞 Contact Us</h3>
+            <p>
+                Call us anytime:<br>
+                +92 300 1234567
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>📧 Email Support</h3>
+            <p>
+                help@yourclinic.com
+                <br>
+                Quick response within 24 hours.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>⏰ Working Hours</h3>
+            <p>
+                Monday - Saturday<br>
+                8:00 AM - 10:00 PM
+            </p>
+        </div>
+
+    </div>
+
+    <div class="buttons">
+        <a href="home.html#vedio2" class="btn btn-primary">
+    Book Appointment
+</a>
+       <a href="#" class="btn btn-danger" onclick="emergencyHelp()">
+    Emergency Help
+</a>
+    </div>
+
+    <div class="health-tips">
+        <h2>💙 Health Tips</h2>
+
+        <ul>
+            <li>Drink at least 8 glasses of water daily.</li>
+            <li>Exercise for 30 minutes every day.</li>
+            <li>Get regular medical checkups.</li>
+            <li>Eat fresh fruits and vegetables.</li>
+            <li>Maintain a healthy sleep routine.</li>
+        </ul>
+    </div>
+
+    <footer>
+        © 2026 Your Clinic | Caring For Your Health
+    </footer>
+
+</div>
+
+<script>
+
+function emergencyHelp(){
+
+    let number = prompt("Please Enter Your Mobile Number");
+
+    if(number == null){
+        return;
+    }
+    if(number.length !== 11 || isNaN(number)){
+        alert("Please enter a valid number");
+        return;
+    }
+
+    if(!/^03\d{9}$/.test(number)){
+        alert("Please enter a valid mobile number");
+        return;
+    }
+
+    alert("we will cal u shortly")
+    }
+
+
+
+
+</script>
+
+</body>
+</html>

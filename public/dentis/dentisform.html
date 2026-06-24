@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>Appointment Form</title>
+
+    <style>
+        * {
+            margin: 0px;
+        }
+
+        body {
+
+            background: linear-gradient(135deg, #e6f7ff, #ffffff);
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #0d47a1, #42a5f5);
+            padding: 18px 30px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            border-radius: 0 0 15px 15px;
+        }
+
+        .navbar h1 {
+            margin: 0;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+
+        .wrapper {
+            display: flex;
+            padding: 30px;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 46px;
+        }
+
+        /* Card style */
+        .card {
+            width: 420px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Inputs */
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 5px rgba(13, 110, 253, 0.3);
+        }
+
+        /* Labels */
+        label {
+            font-weight: bold;
+        }
+
+        /* Gender row */
+        .gender {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Button */
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #0d6efd;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #084cdf;
+        }
+
+        /* Block title */
+        h2 {
+            color: #0d6efd;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+
+        .footer {
+            background: linear-gradient(135deg, #0d47a1, #1976d2, #42a5f5);
+            color: white;
+            padding: 50px 20px 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .footer-content div {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-content h3 {
+            margin-bottom: 15px;
+            font-size: 22px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.4);
+            padding-bottom: 8px;
+        }
+
+        .footer-content p {
+            line-height: 1.8;
+            font-size: 15px;
+            color: #f1f1f1;
+        }
+
+        .footer-content a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 10px;
+            transition: 0.3s;
+            font-size: 15px;
+        }
+
+        .footer-content a:hover {
+            color: #ffe082;
+            padding-left: 8px;
+        }
+
+        .footer hr {
+            margin: 30px auto 15px;
+            border: none;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.3);
+            max-width: 1200px;
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 14px;
+            color: #e3f2fd;
+            letter-spacing: 1px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-content h3 {
+                border-bottom: none;
+            }
+
+            .footer-content a:hover {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <h1>🩺 Dentist Doctor Appointment System</h1>
+    </nav>
+
+    <div class="wrapper">
+
+        <!-- BLOCK 1 -->
+        <div class="card">
+            <h2>Clinic Appointment</h2>
+            <form id="form1" action="/submit-form1" method="POST">
+                <label>Name</label>
+                <input id="name" type="text" placeholder="Enter name" pattern="[A-Za-z]" required>
+
+                <label>Age</label>
+                <input id="age" type="number" placeholder="Enter age" required>
+
+                <label>ID Card</label>
+                <input id="idcardnum" type="text" placeholder="17301-1234567-9" pattern="[0-9]{5}-[0-9]{7}-[0-9]{1}"
+                    required>
+
+                <label>Email</label>
+                <input id="email" type="email" placeholder="example@gmail.com" required>
+
+                <label>Phone</label>
+                <input id="tel" type="tel" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required>
+
+                <label>Gender
+                    <div id="gender" class="gender">
+                        <input type="radio" name="g1"> Male
+                        <input type="radio" name="g1"> Female
+                </label>
+
+
+
+                <label>Address</label>
+                <textarea id="textarea" rows="3"></textarea>
+
+                <button type="button" onclick="showMessage()">Book Appointment</button>
+
+                </form1>
+
+        </div>
+    </div>
+
+
+    <!-- BLOCK 2 -->
+    <div class="card">
+        <h2>Home Service</h2>
+        <form id="form2" action="/submit-form2" method="POST">
+            <label>Name</label>
+            <input id="name2" type="text" placeholder="Enter name" required>
+
+            <label>Gender
+                <div id="gender2" class="gender">
+                    <input type="radio" name="g2"> Male
+                    <input type="radio" name="g2"> Female
+            </label>
+        </form>
+    </div>
+
+    <label>Address</label>
+    <textarea id="textarea2" rows="3" required></textarea>
+
+    <button type="button" onclick="showMsg()">Book Appointment</button>
+    </div>
+
+    </div>
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <div>
+                <h3>🏥 Hospital Care</h3>
+                <p>Providing quality healthcare services with experienced doctors and modern facilities.</p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <a href="/public/home.html">Home</a>
+                <a href="/public/home.html#child-div2">Doctor</a>
+                <a href="/public/help/helpcare.html">HelpCare</a>
+                <a href="/public/home.html#child-con6">Location</a>
+            </div>
+
+            <div>
+                <h3>Contact Us</h3>
+                <p>📞 +92 300 1234567</p>
+                <p>✉ info@hospital.com</p>
+                <p>📍 islamabad, Pakistan</p>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <p class="copyright">
+            © 2026 Hospital Care. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <script>
+        $(document).ready(function () {
+
+            $("#form1").submit(async function (e) {
+                e.preventDefault();
+
+                console.log("Form submitting...");
+
+                const name = $("#name").val();
+                const age = $("#age").val();
+                const idcardnum = $("#idcardnum").val();
+                const email = $("#email").val();
+                const tel = $("#tel").val();
+                const gender = $("input[name='g1']:checked").val();
+
+                const data = {
+                    name,
+                    age,
+                    idcardnum,
+                    email,
+                    tel,
+                    gender
+                };
+
+                console.log("Sending data:", data);
+
+                try {
+                    const res = await fetch("/submit-form1", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name,
+                            age,
+                            idcardnum,
+                            email,
+                            tel,
+                            gender
+                        })
+                    });
+
+                    const result = await res.json();
+                    console.log("craeted:", result);
+
+                    Swal.fire({
+                        title: "Appointment Received!",
+                        text: "Our team will contact you soon.",
+                        icon: "success"
+                    });
+
+                    $("#form1")[0].reset();
+
+                } catch (error) {
+                    console.log(error);
+                }
+            });
+
+
+
+
+
+            $("#form2").submit(async function (e) {
+                e.preventDefault();
+
+                console.log("Form submitting...");
+
+                const name = $("#name2").val();
+                const tel1 = $("#tel1").val();
+                const textarea2 = $("#textarea2").val();
+
+                const data = {
+                    name,
+                    tel1,
+                    textarea2
+                }
+
+                console.log("Sending data:", data);
+
+                try {
+                    const res = await fetch("/submit-form2", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            name,
+                            tel1,
+                            textarea2
+                        })
+                    });
+
+                    const result = await res.json();
+                    console.log("craeted:", result);
+
+                    Swal.fire({
+                        title: "Appointment Received!",
+                        text: "Our team will contact you soon.",
+                        icon: "success"
+                    });
+
+                    $("#form2")[0].reset();
+
+                } catch (error) {
+                    console.log(error);
+                }
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
+
+
+
+// <!-- <script>
+    //     function showMessage() {
+    //         Swal.fire({
+    //             title: "Appointment Received!",
+    //             text: "Our team will contact you soon.",
+    //             icon: "success",
+    //             confirmButtonColor: "#0d6efd",
+    //             background: "#f8fbff"
+    //         });
+    //     }
+
+    //     function showMsg() {
+    //         Swal.fire({
+    //             title: "Service Received!",
+    //             text: "Our team will contact you soon.",
+    //             icon: "success",
+    //             confirmButtonColor: "#0d6efd",
+    //             background: "#f8fbff"
+    //         });
+    //     }
+    // 

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0px;
+        }
+        html{
+            margin: 0px;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eaf7ff, #ffffff);
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+            scroll-behavior: smooth;
+        
+        }
+
+        h1 {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 40px;
+            font-size: 40px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .container div {
+            background: white;
+            width: 450px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            background: #f8fbff;
+            margin: 10px 0;
+            padding: 12px 15px;
+            border-left: 4px solid #0d6efd;
+            border-radius: 8px;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        li:hover {
+            background: #e3f2fd;
+            transform: translateX(5px);
+        }
+
+        .features {
+            max-width: 900px;
+            margin: 50px auto;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: #0d6efd;
+            margin-bottom: 25px;
+            font-size: 35px;
+        }
+
+        .features ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .features ul li {
+            background: #fff;
+            padding: 18px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+            font-size: 17px;
+            font-weight: 500;
+            border-top: 4px solid #0d6efd;
+        }
+
+        .features ul li:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(13, 110, 253, 0.2);
+        }
+
+        .features ul li i {
+            color: #0d6efd;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #0d6efd, #003c8f);
+            color: white;
+            padding: 50px 30px 20px;
+            margin-top: 60px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-content div {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer h3 {
+            margin-bottom: 15px;
+        }
+
+        .footer a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            margin-bottom: 8px;
+        }
+
+        .footer a:hover {
+            padding-left: 5px;
+        }
+
+        .footer hr {
+            margin: 25px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .copyright {
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* @media(max-width:768px){
+    .container div{
+        width:100%;
+    } */
+        /* } */
+
+        /* .container {
+            display: flex; */
+
+        /* } */
+    </style>
+</head>
+
+<body>
+    <h1>Our Services</h1>
+
+    <div>
+        <ul>
+            <li><i class="fa-solid fa-tooth"></i> Dental Treatment</li>
+            <li><i class="fa-solid fa-bone"></i> Orthopedic Consultation</li>
+            <li><i class="fa-solid fa-heart-pulse"></i> Cardiology Checkup</li>
+            <li><i class="fa-solid fa-calendar-check"></i> Online Appointment Booking</li>
+            <li><i class="fa-solid fa-user-doctor"></i> General Physician Consultation</li>
+            <li><i class="fa-solid fa-flask-vial"></i> Laboratory Tests</li>
+            <li><i class="fa-solid fa-syringe"></i> Vaccination Services</li>
+            <li><i class="fa-solid fa-baby"></i> Child Care & Pediatrics</li>
+            <li><i class="fa-solid fa-person-dress"></i> Women's Health Services</li>
+            <li><i class="fa-solid fa-truck-medical"></i> Emergency Care</li>
+            <li><i class="fa-solid fa-eye"></i> Eye Care Services</li>
+            <li><i class="fa-solid fa-stethoscope"></i> Health Screening</li>
+            <li><i class="fa-solid fa-brain"></i> Neurology Consultation</li>
+            <li><i class="fa-solid fa-hospital"></i> Inpatient Care</li>
+            <li><i class="fa-solid fa-x-ray"></i> X-Ray Services</li>
+            <li><i class="fa-solid fa-microscope"></i> Diagnostic Testing</li>
+            <li><i class="fa-solid fa-pills"></i> Pharmacy Services</li>
+            <li><i class="fa-solid fa-user-doctor"></i> Specialist Doctor Consultation</li>
+            <li><i class="fa-solid fa-person-pregnant"></i> Maternity Care</li>
+            <li><i class="fa-solid fa-ear-listen"></i> ENT Treatment</li>
+            <li><i class="fa-solid fa-bandage"></i> Wound Care Services</li>
+            <li><i class="fa-solid fa-person-walking"></i> Physiotherapy Services</li>
+            <li><i class="fa-solid fa-heart-circle-check"></i> Heart Disease Treatment</li>
+            <li><i class="fa-solid fa-apple-whole"></i> Nutrition & Diet Consultation</li>
+            <li><i class="fa-solid fa-video"></i> Telemedicine Consultation</li>
+            <li><i class="fa-solid fa-x-ray"></i> MRI & CT Scan Services</li>
+            <li><i class="fa-solid fa-head-side-virus"></i> Mental Health Counseling</li>
+            <li><i class="fa-solid fa-droplet"></i> Blood Testing Services</li>
+            <li><i class="fa-solid fa-house-medical"></i> Home Healthcare Services</li>
+            <li><i class="fa-solid fa-file-medical"></i> Medical Checkup Packages</li>
+        </ul>
+
+
+    </div>
+
+    <div class="features">
+
+        <h2>Why Choose Us?</h2>
+
+        <ul>
+            <li><i class="fa-solid fa-user-doctor"></i> Experienced Doctors</li>
+            <li><i class="fa-solid fa-clock"></i> 24/7 Emergency Support</li>
+            <li><i class="fa-solid fa-laptop-medical"></i> Online Consultation</li>
+            <li><i class="fa-brands fa-whatsapp"></i> WhatsApp Appointment Booking</li>
+            <li><i class="fa-solid fa-ambulance"></i> Ambulance Service</li>
+            <li><i class="fa-solid fa-hospital-user"></i> Modern Medical Equipment</li>
+            <li><i class="fa-solid fa-bed"></i> Private Patient Rooms</li>
+            <li><i class="fa-solid fa-file-waveform"></i> Medical Reports Online</li>
+            <li><i class="fa-solid fa-star"></i> Quality Healthcare Services</li>
+            <li><i class="fa-solid fa-shield-halved"></i> Secure Patient Records</li>
+        </ul>
+
+    </div>
+
+    <footer class="footer">
+
+        <div class="footer-content">
+
+            <div>
+                <h3>🏥 Hospital Care</h3>
+                <p>Providing quality healthcare services with experienced doctors and modern facilities.</p>
+            </div>
+
+            <div>
+                <h3>Quick Links</h3>
+                <a href="/public/home.html">Home</a>
+                <a href="/public/home.html#child-div2">Doctor</a>
+                <a href="/public/help/helpcare.html">HelpCare</a>
+                <a href="/public/home.html#child-con6">Location</a>
+            </div>
+
+            <div>
+                <h3>Contact Us</h3>
+                <p>📞 +92 300 1234567</p>
+                <p>✉ info@hospital.com</p>
+                <p>📍 Karachi, Pakistan</p>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <p class="copyright">
+            © 2026 Hospital Care. All Rights Reserved.
+        </p>
+
+    </footer>
+</body>
+
+</html>
