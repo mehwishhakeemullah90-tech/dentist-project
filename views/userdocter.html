@@ -1,0 +1,279 @@
+<!-- drpatientForm.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F4F8F7;
+            padding: 40px;
+            color: #1A2E2E;
+        }
+
+        h1 {
+            font-family: 'Sora', sans-serif;
+            color: #0B3D3E;
+            margin-bottom: 24px;
+        }
+
+        /* ===== Doctor Selector ===== */
+        .selector-box {
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 16px rgba(11, 61, 62, 0.06);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .selector-box label {
+            font-weight: 600;
+            color: #0B3D3E;
+        }
+
+        .selector-box select {
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            outline: none;
+        }
+
+        /* ===== Stats ===== */
+        .stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .stat-card {
+            flex: 1;
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(11, 61, 62, 0.06);
+            border-left: 4px solid #1F8A70;
+        }
+
+        .stat-card h3 {
+            font-size: 13px;
+            color: #5A7674;
+            margin-bottom: 8px;
+        }
+
+        .stat-card p {
+            font-size: 26px;
+            font-weight: 700;
+            color: #0B3D3E;
+        }
+
+        /* ===== Table ===== */
+        .table-box {
+            background-color: #ffffff;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 4px 16px rgba(11, 61, 62, 0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead th {
+            text-align: left;
+            padding: 12px;
+            background-color: #0B3D3E;
+            color: white;
+            font-size: 13px;
+            text-transform: uppercase;
+        }
+
+        tbody td {
+            padding: 12px;
+            border-bottom: 1px solid #EEF4F2;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background-color: #F4F8F7;
+        }
+
+        .status-pending {
+            color: #FF6F59;
+            font-weight: 600;
+        }
+
+        .status-completed {
+            color: #1F8A70;
+            font-weight: 600;
+        }
+
+        .btn-complete {
+            background-color: #1F8A70;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .btn-complete:hover {
+            background-color: #176d57;
+        }
+
+        .btn-complete:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>👨‍⚕️ Doctor Dashboard</h1>
+
+    <!-- Doctor Selector -->
+    <div class="selector-box">
+        <label for="doctorSelect">Select Doctor:</label>
+        <select id="doctorSelect">
+            <option value="Talha">Dr. Talha</option>
+            <option value="Javad">Dr. Javad</option>
+            <option value="Khadim">Dr. Khadim</option>
+        </select>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+        <div class="stat-card">
+            <h3>Total Appointments</h3>
+            <p id="totalCount">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Pending</h3>
+            <p id="pendingCount">0</p>
+        </div>
+        <div class="stat-card">
+            <h3>Completed</h3>
+            <p id="completedCount">0</p>
+        </div>
+    </div>
+
+    <!-- Appointments Table -->
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <!-- Data yahan jQuery se aayega -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Jab bhi page load ho ya dropdown change ho, data load karen
+        function loadDoctorAppointments() {
+            const doctorName = $("#doctorSelect").val();
+
+            $.get(`/doctor-appointments/${doctorName}`, function (appointments) {
+
+                $("#tableBody").empty();
+
+                let pending = 0;
+                let completed = 0;
+
+                appointments.forEach(function (item) {
+                    const isCompleted = item.status === "Completed";
+
+                    if (isCompleted) completed++;
+                    else pending++;
+
+                    const statusClass = isCompleted ? "status-completed" : "status-pending";
+
+                    let row = `
+                        <tr>
+                            <td>${item.patientName}</td>
+                            <td>${item.patientEmail}</td>
+                            <td>${item.patientPhone}</td>
+                            <td>${item.appointmentDate}</td>
+                            <td>${item.appointmentTime}</td>
+                            <td class="${statusClass}">${item.status}</td>
+                            <td>
+                                <button class="btn-complete" data-id="${item._id}" ${isCompleted ? "disabled" : ""}>
+                                    ${isCompleted ? "Done" : "Mark Complete"}
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                    $("#tableBody").append(row);
+                });
+
+                // Stats update karna
+                $("#totalCount").text(appointments.length);
+                $("#pendingCount").text(pending);
+                $("#completedCount").text(completed);
+
+            }).fail(function (error) {
+                console.log("Error fetching appointments:", error);
+            });
+        }
+
+        // Page load hote hi data laayen
+        $(document).ready(function () {
+            loadDoctorAppointments();
+
+            // Dropdown change hone par naye doctor ka data laayen
+            $("#doctorSelect").on("change", function () {
+                loadDoctorAppointments();
+            });
+
+            // Har 5 second mein refresh karen
+            setInterval(loadDoctorAppointments, 5000);
+        });
+
+        // "Mark Complete" button click
+        $(document).on("click", ".btn-complete", function () {
+            const id = $(this).data("id");
+
+            $.ajax({
+                url: `/markComplete/${id}`,
+                type: "PUT",
+                success: function (response) {
+                    console.log("Marked complete:", response);
+                    loadDoctorAppointments();   // table refresh kar diya
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

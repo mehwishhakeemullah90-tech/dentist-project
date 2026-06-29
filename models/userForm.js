@@ -1,47 +1,31 @@
-// CARDIO MODEL 1
-
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-
-    name: {
+    patientName: {
         type: String,
         required: true
     },
-
-    age: {
-        type: Number,
-        required: true
-    },
-
-    idcardnum: {
-        type: String,
-        required: true
-
-    },
-
-    email: {
+    patientEmail: {
         type: String,
         required: true
     },
-
-    tel: {
+    patientPhone: {
         type: String,
         required: true
     },
-
-    gender: {
+    Docter: {   // FIXED HERE
         type: String,
         required: true
     },
-
-    createdAt: {
-        type: Date,
-        default: Date.now
+    appointmentDate: {
+        type: String,
+        required: true
+    },
+    appointmentTime: {
+        type: String,
+        required: true
     }
-
 }, {
-    collection: "CardioOnlineAppoint"
+    collection: "PatientsForm"
 });
-
-module.exports = mongoose.model("OnlineAppiontment1", userSchema);
+module.exports= mongoose.model("DentistAppointment", userSchema)
