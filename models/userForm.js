@@ -24,8 +24,13 @@ const userSchema = new mongoose.Schema({
     appointmentTime: {
         type: String,
         required: true
+    },
+    status: {
+        type: String,
+        default: "Pending"
     }
 }, {
+    timestamps: true,
     collection: "PatientsForm"
 });
-module.exports= mongoose.model("DentistAppointment", userSchema)
+module.exports = mongoose.model("Appointment", userSchema);

@@ -1,5 +1,4 @@
-// const Appointment = require("../models/userAssistant");
-const { update } = require("./userForm");
+const Appointment = require("../models/userForm.js");
 const mongoose = require("mongoose");
 
 // SAVE FORM DATA
@@ -7,9 +6,7 @@ exports.createAppointment = async (req, res) => {
     try {
         const data = new Appointment(req.body);
         await data.save();
-
         res.json({ message: "Appointment saved successfully" });
-
     } catch (err) {
         res.status(500).json({ message: "Error saving data" });
     }
@@ -20,34 +17,20 @@ exports.getAppointments = async (req, res) => {
     try {
         const data = await Appointment.find();
         res.json(data);
-
     } catch (err) {
         res.status(500).json({ message: "Error fetching data" });
     }
 };
 
 exports.updateAppointment = async (req, res) => {
-
     try {
-
-           const id = req.params.id;
-
-        console.log("====================================");
-        console.log("Received ID:", id);
-        console.log("ID length:", id.length);   // valid MongoDB ID ki length 24 honi chahiye
-        console.log("Is valid ObjectId?", mongoose.Types.ObjectId.isValid(id));
-        console.log("Connected to database:", mongoose.connection.name);
-        console.log("Model is using collection:", Appointment.collection.name);
-        console.log("Received Body:", req.body);
-        console.log("====================================");
+        const id = req.params.id;
 
         const updated = await Appointment.findByIdAndUpdate(
-            req.params.id,
+            id,
             req.body,
-              { returnDocument: "after" }   // ✅ "new: true" ki jagah ye naya syntax
+            { new: true }
         );
-
-        console.log("Found and updated document:", updated);
 
         if (!updated) {
             return res.status(404).json({ message: "Appointment not found" });
@@ -56,29 +39,20 @@ exports.updateAppointment = async (req, res) => {
         res.json(updated);
 
     } catch (err) {
-
-        res.status(500).json({
-            message: "Error updating appointment"
-        });
-
+        res.status(500).json({ message: "Error updating appointment" });
     }
-
 };
 
 exports.deleteAppointment = async (req, res) => {
     try {
+        const deleted = await Appointment.findByIdAndDelete(req.params.id);
 
-        await Appointment.findByIdAndDelete(req.params.id);
+        if (!deleted) {
+            return res.status(404).json({ message: "Appointment not found" });
+        }
 
-        res.json({
-            message: "Appointment deleted successfully"
-        });
-
+        res.json({ message: "Appointment deleted successfully" });
     } catch (err) {
-
-        res.status(500).json({
-            message: "Error deleting appointment"
-        });
-
+        res.status(500).json({ message: "Error deleting appointment" });
     }
 };

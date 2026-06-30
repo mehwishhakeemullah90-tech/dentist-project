@@ -20,4 +20,4 @@ const userSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model("DentistAppointment", userSchema, "Adminprofile");
+module.exports = mongoose.model("AdminUser", userSchema, "AdminProfile");

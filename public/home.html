@@ -34,9 +34,9 @@
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#" class="active">Home</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="/public/practs2.html">Doctors</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/views/userdocter.html">Doctors</a></li>
+                    <li><a href="service/service.html">Services</a></li>
+                    <li><a href="help/helpcare.html">Contact</a></li>
                 </ul>
 
 
@@ -53,48 +53,6 @@
             <video class="vedio1" autoplay muted loop>
                 <source src="images/clinic.mp4" type="video/mp4">
             </video>
-
-            <nav class="con1-child">
-
-                <a href="home.html"><b>Home</a></b>
-
-                <div class="dropdown">
-                    <a href="dentis/dentisform.html"><b>Dental Care</b></a>
-
-                    <div class="dropdown-content">
-                        <a href="#">👨‍⚕️ Dr. Ahmed Khan</a>
-                        <a href="#">🦷 Dental Specialist</a>
-                        <a href="#">🏆 BDS, FCPS Certified</a>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <a href="Orthopedic/cardioform.html"><b>Orthopedic</b></a>
-
-                    <div class="dropdown-content">
-                        <a href="#">👨‍⚕️ Dr. Hassan</a>
-                        <a href="#">🦴 Bone Specialist</a>
-                        <a href="#">🏆 MBBS, MS Orthopedics</a>
-                    </div>
-                </div>
-
-                <div class="dropdown">
-                    <a href="cardio/aurthoform
-                    .html"><b>Cardiology</b></a>
-
-                    <div class="dropdown-content">
-                        <a href="#">👨‍⚕️ Dr. Ali Raza</a>
-                        <a href="#">❤️ Heart Specialist</a>
-                        <a href="#">🏆 MBBS, FCPS Cardiology</a>
-                    </div>
-                </div>
-
-                <a href="service/service.html"><b>Services</b></a>
-                <a href="help/helpcare.html"><b>Help</b></a>
-
-            </nav>
-
-        </section>
 
         <!-- **************************************** -->
         <!-- **************************************** -->
@@ -175,13 +133,13 @@
                 <source src="images/teethvd.mp4" type="video/mp4">
             </video>
 
-            <video class="video4" autoplay muted loop>
+            <!-- <video class="video4" autoplay muted loop>
                 <source src="images/heartvd0.mp4" type="video/mp4">
             </video>
 
             <video class="video4" autoplay muted loop>
                 <source src="images/bounesvd.mp4" type="video/mp4">
-            </video>
+            </video> -->
 
             <div class="con-child4">
                 <div class="con-cild44" <div class="col">
@@ -445,36 +403,47 @@
             document.getElementById("overlay").style.display = "none";
         }
 
-        document.getElementById("loginForm").addEventListener("submit", function (e) {
+        document.getElementById("loginForm").addEventListener("submit", async function (e) {
 
             e.preventDefault();
 
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-            if (email === "admin@gmail.com" &&
-                password === "123456789") {
-
-                Swal.fire({
-                    title: "Login Successful!",
-                    text: "Welcome Admin",
-                    icon: "success",
-                    confirmButtonText: "Continue"
-                }).then(() => {
-
-                    window.location.href = "/views/admin.html";
-
+            try {
+                const res = await fetch("/admin-login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
                 });
 
-            } else {
+                const result = await res.json();
 
+                if (res.ok && result.success) {
+                    Swal.fire({
+                        title: "Login Successful!",
+                        text: "Welcome Admin",
+                        icon: "success",
+                        confirmButtonText: "Continue"
+                    }).then(() => {
+                        window.location.href = "/admin";
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Login Failed!",
+                        text: result.message || "Invalid Email or Password",
+                        icon: "error",
+                        confirmButtonText: "Try Again"
+                    });
+                }
+
+            } catch (error) {
                 Swal.fire({
-                    title: "Login Failed!",
-                    text: "Invalid Email or Password",
+                    title: "Error!",
+                    text: "Server se connection nahi ho saka",
                     icon: "error",
                     confirmButtonText: "Try Again"
                 });
-
             }
 
         });

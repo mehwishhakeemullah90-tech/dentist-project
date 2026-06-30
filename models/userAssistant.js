@@ -34,4 +34,4 @@ const appointmentSchema = new mongoose.Schema({
 
     { timestamps: true, collection: "PatientForm" });
 
-module.exports = mongoose.model("DentistAppointment", appointmentSchema);
+module.exports = mongoose.model("AppointmentAlt", appointmentSchema);

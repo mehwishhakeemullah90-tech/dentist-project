@@ -10,7 +10,8 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #0B3D3E, #1F8A70);
+            /* background: linear-gradient(135deg, #0B3D3E, #1F8A70); */
+             background:linear-gradient(135deg,#0f4c81,#2b7de9);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -55,7 +56,7 @@
         button {
             width: 100%;
             padding: 13px;
-            background-color: #1F8A70;
+            background-color: #2b7de9;
             color: white;
             border: none;
             border-radius: 8px;
@@ -64,7 +65,8 @@
             cursor: pointer;
         }
 
-        button:hover { background-color: #176d57; }
+        /* button:hover { background-color: #176d57; } */
+        button:hover{ background:linear-gradient(135deg,#0f4c81,#2b7de9);}
 
         #message {
             text-align: center;
@@ -108,11 +110,11 @@
                 const result = await res.json();
 
                 if (res.ok) {
-                    // ✅ Doctor ka naam browser mein "yaad" rakh liya
+                    // Doctor ka naam browser mein save karo (dashboard display ke liye)
                     localStorage.setItem("loggedInDoctor", result.doctorName);
 
-                    // Dashboard par bhej diya
-                    window.location.href = "/views/userdocter.html";
+                    // Session-protected route se dashboard kholo
+                    window.location.href = "/doctor";
 
                 } else {
                     $("#message").addClass("error").text("NO" + result.message);
