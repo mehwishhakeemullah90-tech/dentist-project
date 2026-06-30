@@ -2,29 +2,37 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 
-const { doctorLogin, getDoctorAppointments, markComplete } = require("../controllers/UserDocter.js");
+const {
+    doctorLogin,
+    getDoctorAppointments,
+    updateAppointmentStatus,
+    updatePatient,
+    deletePatient
+} = require("../controllers/UserDocter.js");
 
-// Doctor login POST — session set karta hai
+const { isDoctor, isDoctorAPI } = require("../middleware/authMiddleware.js");
+
+// ── Auth ───────────────────────────────────────────────────────────────────
 router.post("/doctor-login", doctorLogin);
 
-// Doctor dashboard page — sirf logged-in doctor dekh sakta hai
-router.get("/doctor", (req, res) => {
-    if (!req.session.isDoctor) {
-        return res.redirect("/practs2.html");
-    }
+router.get("/doctor-logout", (req, res) => {
+    req.session.destroy();
+    res.redirect("/login");  // back to doctor login page
+});
+
+// ── Doctor dashboard page (protected) ─────────────────────────────────────
+router.get("/doctor", isDoctor, (req, res) => {
     res.sendFile(path.join(__dirname, "../views/userdocter.html"));
 });
 
-// Doctor logout
-router.get("/doctor-logout", (req, res) => {
-    req.session.destroy();
-    res.redirect("/practs2.html");
-});
+// ── API: appointments (session-based — only this doctor's data) ────────────
+router.get("/api/doctor/appointments", isDoctorAPI, getDoctorAppointments);
 
-// Doctor ki appointments
-router.get("/doctor-appointments/:doctorName", getDoctorAppointments);
+// ── API: update status (Pending / Completed / Cancelled) ──────────────────
+router.patch("/api/doctor/appointments/:id/status", isDoctorAPI, updateAppointmentStatus);
 
-// Appointment complete mark karna
-router.put("/markComplete/:id", markComplete);
+// ── API: patient CRUD ─────────────────────────────────────────────────────
+router.put("/api/doctor/patients/:id", isDoctorAPI, updatePatient);
+router.delete("/api/doctor/patients/:id", isDoctorAPI, deletePatient);
 
 module.exports = router;

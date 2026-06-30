@@ -1,298 +1,482 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <title>Document</title>
+    <title>Admin Dashboard — Dental Clinic</title>
     <style>
-       /* Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:'Poppins',sans-serif;
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
+body { display: flex; min-height: 100vh; background: #f4f7fc; }
+
+/* ── Sidebar ── */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(180deg, #0f4c81, #2b7de9);
+    color: #fff;
+    position: fixed;
+    left: 0; top: 0; bottom: 0;
+    padding: 30px 20px;
+    box-shadow: 4px 0 15px rgba(0,0,0,.15);
+    display: flex;
+    flex-direction: column;
 }
 
-body{
-    display:flex;
-    min-height:100vh;
-    background:#f4f7fc;
+.sidebar h2 { text-align: center; margin-bottom: 40px; font-size: 22px; }
+
+.sidebar a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 18px;
+    margin-bottom: 8px;
+    border-radius: 10px;
+    transition: .3s;
+    font-size: 15px;
+    cursor: pointer;
 }
 
-/* ================= Sidebar ================= */
+.sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,.18); transform: translateX(6px); }
 
-.sidebar{
-    width:260px;
-    background:linear-gradient(180deg,#0f4c81,#2b7de9);
-    color:#fff;
-    position:fixed;
-    left:0;
-    top:0;
-    bottom:0;
-    padding:30px 20px;
-    box-shadow:4px 0 15px rgba(0,0,0,.15);
+.sidebar .logout-btn {
+    margin-top: auto;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.25);
 }
 
-.sidebar h2{
-    text-align:center;
-    margin-bottom:40px;
-    font-size:25px;
+/* ── Main ── */
+.container1 { margin-left: 260px; width: 100%; min-height: 100vh; display: flex; flex-direction: column; }
+
+.main { flex: 1; padding: 35px; }
+
+.main h1 { color: #0f4c81; margin-bottom: 8px; font-size: 30px; }
+
+.page-section { display: none; }
+.page-section.active { display: block; }
+
+/* ── Cards ── */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 18px; margin-bottom: 30px; }
+
+.card {
+    background: #fff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.07);
+    text-align: center;
+    transition: .3s;
+    border-top: 4px solid #2b7de9;
 }
 
-.sidebar a{
-    display:block;
-    color:#fff;
-    text-decoration:none;
-    padding:14px 18px;
-    margin-bottom:12px;
-    border-radius:10px;
-    transition:.3s;
-    font-size:16px;
+.card:hover { transform: translateY(-6px); box-shadow: 0 16px 32px rgba(43,125,233,.15); }
+.card h3 { color: #555; margin-bottom: 12px; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: .5px; }
+.card p { font-size: 38px; color: #0f4c81; font-weight: 700; }
+.card.pending  p { color: #f59e0b; }
+.card.completed p { color: #10b981; }
+.card.cancelled p { color: #ef4444; }
+
+/* ── Table ── */
+.table-box {
+    background: #fff;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.07);
+    overflow-x: auto;
+    margin-bottom: 30px;
 }
 
-.sidebar a:hover{
-    background:rgba(255,255,255,.18);
-    transform:translateX(6px);
+.table-box h2 { color: #0f4c81; margin-bottom: 20px; font-size: 20px; }
+
+table { width: 100%; border-collapse: collapse; min-width: 600px; }
+
+thead { background: #0f4c81; color: #fff; }
+th, td { padding: 14px 16px; text-align: left; }
+tbody tr { border-bottom: 1px solid #e6e6e6; transition: .2s; }
+tbody tr:hover { background: #eef5ff; }
+th { font-weight: 600; font-size: 13px; }
+td { color: #555; font-size: 14px; }
+
+/* ── Status badges ── */
+.badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+.badge-pending   { background: #fef3c7; color: #92400e; }
+.badge-completed { background: #d1fae5; color: #065f46; }
+.badge-cancelled { background: #fee2e2; color: #991b1b; }
+
+/* ── Doctor table action btn ── */
+.btn-danger {
+    background: #ef4444;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    transition: .2s;
+}
+.btn-danger:hover { background: #dc2626; }
+
+/* ── Register form panel ── */
+.form-panel {
+    background: #fff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.07);
+    max-width: 480px;
 }
 
-/* ================= Main Container ================= */
+.form-panel h2 { color: #0f4c81; margin-bottom: 20px; }
 
-.container1{
-    margin-left:260px;
-    width:100%;
-    min-height:100vh;
-    display:flex;
-    flex-direction:column;
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 5px; }
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    outline: none;
+    background: #fafafa;
+    transition: .3s;
+}
+.form-group input:focus, .form-group select:focus {
+    border-color: #0f4c81;
+    background: #fff;
 }
 
-.main{
-    flex:1;
-    padding:35px;
+.btn-primary {
+    padding: 12px 28px;
+    background: linear-gradient(135deg, #0f4c81, #2b7de9);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .3s;
 }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(43,125,233,.3); }
 
-.main h1{
-    color:#0f4c81;
-    margin-bottom:30px;
-    font-size:34px;
+#formMsg { margin-top: 12px; font-size: 14px; font-weight: 500; }
+.msg-ok  { color: #10b981; }
+.msg-err { color: #ef4444; }
+
+/* ── Footer ── */
+footer { background: #fff; text-align: center; padding: 16px; font-size: 14px; color: #888; border-top: 1px solid #ddd; }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+    .sidebar { width: 200px; }
+    .container1 { margin-left: 200px; }
 }
-
-/* ================= Dashboard Cards ================= */
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-    margin-bottom:35px;
-}
-
-.card{
-    background:#fff;
-    padding:30px;
-    border-radius:16px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-    text-align:center;
-    transition:.3s;
-}
-
-.card:hover{
-    transform:translateY(-8px);
-    box-shadow:0 18px 35px rgba(43,125,233,.18);
-}
-
-.card h3{
-    color:#555;
-    margin-bottom:15px;
-    font-size:22px;
-}
-
-.card p{
-    font-size:42px;
-    color:#0f4c81;
-    font-weight:700;
-}
-
-/* ================= Table ================= */
-
-.table-box{
-    background:#fff;
-    padding:25px;
-    border-radius:16px;
-    box-shadow:0 10px 25px rgba(0,0,0,.08);
-}
-
-.table-box h2{
-    color:#0f4c81;
-    margin-bottom:20px;
-}
-
-table{
-    width:100%;
-    border-collapse:collapse;
-    overflow:hidden;
-}
-
-thead{
-    background:#0f4c81;
-    color:#fff;
-}
-
-th,td{
-    padding:15px;
-    text-align:left;
-}
-
-tbody tr{
-    border-bottom:1px solid #e6e6e6;
-    transition:.3s;
-}
-
-tbody tr:hover{
-    background:#eef5ff;
-}
-
-th{
-    font-weight:600;
-}
-
-td{
-    color:#555;
-}
-
-/* ================= Footer ================= */
-
-footer{
-    background:#fff;
-    text-align:center;
-    padding:18px;
-    font-size:15px;
-    color:#555;
-    border-top:1px solid #ddd;
-}
-
-/* ================= Responsive ================= */
-
-@media(max-width:768px){
-
-    .sidebar{
-        width:220px;
-    }
-
-    .container1{
-        margin-left:220px;
-    }
-
-    .main{
-        padding:20px;
-    }
-
-    .main h1{
-        font-size:28px;
-    }
-
-}
-
-@media(max-width:600px){
-
-    body{
-        flex-direction:column;
-    }
-
-    .sidebar{
-        position:relative;
-        width:100%;
-        height:auto;
-    }
-
-    .container1{
-        margin-left:0;
-    }
-
-    .cards{
-        grid-template-columns:1fr;
-    }
-
-    .table-box{
-        overflow-x:auto;
-    }
-
-    table{
-        min-width:600px;
-    }
-
+@media (max-width: 600px) {
+    body { flex-direction: column; }
+    .sidebar { position: relative; width: 100%; height: auto; }
+    .container1 { margin-left: 0; }
 }
     </style>
 </head>
 
 <body>
-    <div class="sidebar">
-        <h2>🏥 Admin Panel</h2>
 
-        <a href="/views/registerform.html">new Registration</a>
-        <a href="/public/practs2.html">Doctors</a>
-        <a href="/views/assistant.html">Patients</a>
-        <a href="#">Appointments</a>
+<div class="sidebar">
+    <h2>🏥 Admin Panel</h2>
 
-        <a href="#">Logout</a>
-    </div>
+    <a class="nav-link active" data-section="dashboard">📊 Dashboard</a>
+    <a class="nav-link" data-section="doctors">👨‍⚕️ Doctors</a>
+    <a class="nav-link" data-section="patients">📋 Patients</a>
+    <a class="nav-link" data-section="addDoctor">➕ Add Doctor</a>
 
-    <div class="container1">
+    <a href="/admin-logout" class="logout-btn">🚪 Logout</a>
+</div>
 
-        <div class="main">
+<div class="container1">
+    <div class="main">
 
+        <!-- ── Dashboard Section ── -->
+        <div id="sec-dashboard" class="page-section active">
             <h1>📊 Admin Dashboard</h1>
+            <p style="color:#888;margin-bottom:25px;font-size:14px;">Overview of all clinic activity</p>
 
             <div class="cards">
-
                 <div class="card">
                     <h3>👨‍⚕️ Doctors</h3>
-                    <p id="doctors">0</p>
+                    <p id="statDoctors">—</p>
                 </div>
-
                 <div class="card">
                     <h3>🧑‍🤝‍🧑 Patients</h3>
-                    <p id="patients">0</p>
+                    <p id="statPatients">—</p>
                 </div>
-
                 <div class="card">
-                    <h3>📅 Appointments</h3>
-                    <p id="appointments">0</p>
+                    <h3>📅 Total Appointments</h3>
+                    <p id="statAppointments">—</p>
                 </div>
-
+                <div class="card pending">
+                    <h3>⏳ Pending</h3>
+                    <p id="statPending">—</p>
+                </div>
+                <div class="card completed">
+                    <h3>✅ Completed</h3>
+                    <p id="statCompleted">—</p>
+                </div>
+                <div class="card cancelled">
+                    <h3>❌ Cancelled</h3>
+                    <p id="statCancelled">—</p>
+                </div>
             </div>
 
             <div class="table-box">
-
                 <h2>📋 Latest Activity</h2>
-
                 <table>
                     <thead>
                         <tr>
                             <th>Patient</th>
                             <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
                             <th>Status</th>
                         </tr>
                     </thead>
-
-                    <tbody id="activity">
-
-                    </tbody>
-
+                    <tbody id="activity"></tbody>
                 </table>
-
             </div>
-
         </div>
 
-         <footer>
-            © 2026 Your Clinic | Caring For Your Health
-        </footer>
+        <!-- ── Doctors Section ── -->
+        <div id="sec-doctors" class="page-section">
+            <h1>👨‍⚕️ Doctor List</h1>
+            <p style="color:#888;margin-bottom:25px;font-size:14px;">All registered doctors</p>
+            <div class="table-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Full Name</th>
+                            <th>Email</th>
+                            <th>Registered On</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="doctorsList"></tbody>
+                </table>
+            </div>
+        </div>
 
-       
+        <!-- ── Patients Section ── -->
+        <div id="sec-patients" class="page-section">
+            <h1>📋 Patient Appointments</h1>
+            <p style="color:#888;margin-bottom:25px;font-size:14px;">All patient appointments</p>
+            <div class="table-box">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="patientsList"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ── Add Doctor Section ── -->
+        <div id="sec-addDoctor" class="page-section">
+            <h1>➕ Add New Doctor</h1>
+            <p style="color:#888;margin-bottom:25px;font-size:14px;">Create a doctor account</p>
+            <div class="form-panel">
+                <h2>Doctor Registration</h2>
+                <form id="addDoctorForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="drName" placeholder="Dr. Full Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="drEmail" placeholder="doctor@clinic.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" id="drPassword" placeholder="Minimum 6 characters" required>
+                    </div>
+                    <input type="hidden" id="drRole" value="doctor">
+                    <button type="submit" class="btn-primary">Create Doctor Account</button>
+                </form>
+                <p id="formMsg"></p>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>© 2026 Your Clinic | Caring For Your Health</footer>
+</div>
+
+<script>
+$(document).ready(function () {
+
+    // ── Section navigation ──────────────────────────────────────────────
+    $(".nav-link").on("click", function () {
+        const section = $(this).data("section");
+        $(".nav-link").removeClass("active");
+        $(this).addClass("active");
+        $(".page-section").removeClass("active");
+        $("#sec-" + section).addClass("active");
+
+        if (section === "dashboard")  loadStats();
+        if (section === "doctors")    loadDoctors();
+        if (section === "patients")   loadPatients();
+    });
+
+    // ── Load on start ───────────────────────────────────────────────────
+    loadStats();
+});
+
+// ── Dashboard stats ─────────────────────────────────────────────────────
+function loadStats() {
+    $.get("/api/admin/stats", function (data) {
+        if (!data.success) return;
+
+        $("#statDoctors").text(data.doctors);
+        $("#statPatients").text(data.patients);
+        $("#statAppointments").text(data.appointments);
+        $("#statPending").text(data.pending);
+        $("#statCompleted").text(data.completed);
+        $("#statCancelled").text(data.cancelled);
+
+        const tbody = $("#activity").empty();
+        if (data.latest.length === 0) {
+            tbody.append('<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px;">No appointments yet</td></tr>');
+            return;
+        }
+        data.latest.forEach(function (item) {
+            const badge = badgeHtml(item.status);
+            tbody.append(`
+                <tr>
+                    <td>${item.patientName}</td>
+                    <td>${item.Docter}</td>
+                    <td>${item.appointmentDate}</td>
+                    <td>${item.appointmentTime}</td>
+                    <td>${badge}</td>
+                </tr>
+            `);
+        });
+
+    }).fail(function (xhr) {
+        if (xhr.status === 401) window.location.href = "/admin-login-page";
+    });
+}
+
+// ── Doctor list ─────────────────────────────────────────────────────────
+function loadDoctors() {
+    $.get("/api/admin/doctors", function (data) {
+        if (!data.success) return;
+        const tbody = $("#doctorsList").empty();
+        if (data.doctors.length === 0) {
+            tbody.append('<tr><td colspan="5" style="text-align:center;color:#aaa;padding:20px;">No doctors registered yet</td></tr>');
+            return;
+        }
+        data.doctors.forEach(function (dr, i) {
+            const date = new Date(dr.createdAt).toLocaleDateString();
+            tbody.append(`
+                <tr>
+                    <td>${i + 1}</td>
+                    <td>${dr.fullName}</td>
+                    <td>${dr.email}</td>
+                    <td>${date}</td>
+                    <td><button class="btn-danger" onclick="deleteDoctor('${dr._id}')">Delete</button></td>
+                </tr>
+            `);
+        });
+    });
+}
+
+// ── Patient list ────────────────────────────────────────────────────────
+function loadPatients() {
+    $.get("/api/admin/stats", function (data) {
+        if (!data.success) return;
+        const tbody = $("#patientsList").empty();
+        if (!data.latest || data.latest.length === 0) {
+            tbody.append('<tr><td colspan="7" style="text-align:center;color:#aaa;padding:20px;">No appointments yet</td></tr>');
+            return;
+        }
+        // Fetch ALL appointments (stats only returns latest 10, so use /getall)
+        $.get("/getall", function (appts) {
+            appts.forEach(function (item) {
+                tbody.append(`
+                    <tr>
+                        <td>${item.patientName}</td>
+                        <td>${item.patientEmail}</td>
+                        <td>${item.patientPhone}</td>
+                        <td>${item.Docter}</td>
+                        <td>${item.appointmentDate}</td>
+                        <td>${item.appointmentTime}</td>
+                        <td>${badgeHtml(item.status)}</td>
+                    </tr>
+                `);
+            });
+        });
+    });
+}
+
+// ── Delete doctor ───────────────────────────────────────────────────────
+function deleteDoctor(id) {
+    if (!confirm("Are you sure you want to delete this doctor?")) return;
+    $.ajax({
+        url: "/api/admin/doctors/" + id,
+        type: "DELETE",
+        success: function (data) {
+            if (data.success) loadDoctors();
+            else alert("Error: " + data.message);
+        }
+    });
+}
+
+// ── Add doctor form ─────────────────────────────────────────────────────
+$("#addDoctorForm").on("submit", async function (e) {
+    e.preventDefault();
+    const payload = {
+        fullName: $("#drName").val().trim(),
+        email:    $("#drEmail").val().trim(),
+        password: $("#drPassword").val(),
+        role:     "doctor"
+    };
+    try {
+        const res = await fetch("/api/admin/doctors", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (res.ok) {
+            $("#formMsg").removeClass("msg-err").addClass("msg-ok").text("✅ " + data.message);
+            $("#addDoctorForm")[0].reset();
+        } else {
+            $("#formMsg").removeClass("msg-ok").addClass("msg-err").text("❌ " + data.message);
+        }
+    } catch (err) {
+        $("#formMsg").removeClass("msg-ok").addClass("msg-err").text("❌ Server error. Try again.");
+    }
+});
+
+// ── Helper: status badge ────────────────────────────────────────────────
+function badgeHtml(status) {
+    const cls = status === "Completed" ? "badge-completed"
+              : status === "Cancelled" ? "badge-cancelled"
+              : "badge-pending";
+    return `<span class="badge ${cls}">${status || "Pending"}</span>`;
+}
+</script>
+
 </body>
-
 </html>

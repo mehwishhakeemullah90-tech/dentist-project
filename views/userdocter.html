@@ -1,183 +1,281 @@
-<!-- drpatientForm.html -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Dashboard</title>
+    <title>Doctor Dashboard — Dental Clinic</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap');
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #F4F8F7;
-            padding: 40px;
+            background: #F4F8F7;
             color: #1A2E2E;
         }
 
-        h1 {
-            font-family: 'Sora', sans-serif;
-            color: #0B3D3E;
-            margin-bottom: 24px;
-        }
-
-        /* ===== Doctor Selector ===== */
-        .selector-box {
-            background-color: #ffffff;
-            border-radius: 14px;
-            padding: 20px 24px;
-            margin-bottom: 24px;
-            box-shadow: 0 4px 16px rgba(11, 61, 62, 0.06);
+        /* ── Header ── */
+        .header {
+            /* background: linear-gradient(135deg, #0B3D3E, #1F8A70); */
+            background: linear-gradient(135deg, #0f4c81, #2b7de9);
+            color: #fff;
+            padding: 18px 30px;
             display: flex;
             align-items: center;
-            gap: 14px;
+            justify-content: space-between;
         }
 
-        .selector-box label {
-            font-weight: 600;
-            color: #0B3D3E;
+        .header h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 22px;
         }
 
-        .selector-box select {
-            padding: 10px 14px;
-            border-radius: 8px;
-            border: 1px solid #ddd;
-            font-size: 14px;
-            outline: none;
-        }
-
-        /* ===== Stats ===== */
-        .stats {
+        .header-right {
             display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .doctor-name {
+            font-size: 14px;
+            opacity: .9;
+        }
+
+        .btn-logout {
+            background: rgba(255,255,255,.15);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.3);
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .2s;
+        }
+
+        .btn-logout:hover { background: rgba(255,255,255,.25); }
+
+        /* ── Main ── */
+        .main { padding: 30px; }
+
+        /* ── Stats ── */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 16px;
             margin-bottom: 24px;
         }
 
         .stat-card {
-            flex: 1;
-            background-color: #ffffff;
+            background: #fff;
             border-radius: 14px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 4px 16px rgba(11, 61, 62, 0.06);
+            box-shadow: 0 4px 16px rgba(11, 61, 62, .06);
             border-left: 4px solid #1F8A70;
         }
 
-        .stat-card h3 {
-            font-size: 13px;
-            color: #5A7674;
-            margin-bottom: 8px;
-        }
+        .stat-card.pending   { border-left-color: #f59e0b; }
+        .stat-card.completed { border-left-color: #1F8A70; }
+        .stat-card.cancelled { border-left-color: #ef4444; }
 
-        .stat-card p {
-            font-size: 26px;
-            font-weight: 700;
-            color: #0B3D3E;
-        }
+        .stat-card h3 { font-size: 12px; color: #5A7674; margin-bottom: 8px; text-transform: uppercase; letter-spacing: .5px; }
+        .stat-card p  { font-size: 28px; font-weight: 700; color: #0B3D3E; }
 
-        /* ===== Table ===== */
+        /* ── Table box ── */
         .table-box {
-            background-color: #ffffff;
+            background: #fff;
             border-radius: 14px;
             padding: 24px;
-            box-shadow: 0 4px 16px rgba(11, 61, 62, 0.06);
+            box-shadow: 0 4px 16px rgba(11, 61, 62, .06);
+            overflow-x: auto;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
+        .table-box h2 { color: #0B3D3E; margin-bottom: 18px; font-family: 'Sora', sans-serif; font-size: 18px; }
+
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
 
         thead th {
             text-align: left;
-            padding: 12px;
-            background-color: #0B3D3E;
-            color: white;
-            font-size: 13px;
+            padding: 12px 14px;
+            /* background: #0B3D3E; */
+            background: linear-gradient(135deg, #0f4c81, #2b7de9);
+            color: #fff;
+            font-size: 12px;
             text-transform: uppercase;
+            letter-spacing: .5px;
         }
 
         tbody td {
-            padding: 12px;
+            padding: 13px 14px;
             border-bottom: 1px solid #EEF4F2;
             font-size: 14px;
+            color: #333;
         }
 
-        tbody tr:hover {
-            background-color: #F4F8F7;
-        }
+        tbody tr:hover { background: #F4F8F7; }
 
-        .status-pending {
-            color: #FF6F59;
-            font-weight: 600;
-        }
-
-        .status-completed {
-            color: #1F8A70;
-            font-weight: 600;
-        }
-
-        .btn-complete {
-            background-color: #1F8A70;
-            color: white;
-            border: none;
-            padding: 6px 14px;
+        /* ── Status select ── */
+        .status-select {
+            padding: 6px 10px;
             border-radius: 6px;
+            border: 1px solid #ddd;
             font-size: 13px;
+            font-weight: 600;
+            outline: none;
             cursor: pointer;
         }
 
-        .btn-complete:hover {
-            background-color: #176d57;
+        .status-select.pending   { color: #92400e; background: #fef3c7; border-color: #fcd34d; }
+        .status-select.completed { color: #065f46; background: #d1fae5; border-color: #6ee7b7; }
+        .status-select.cancelled { color: #991b1b; background: #fee2e2; border-color: #fca5a5; }
+
+        /* ── Action buttons ── */
+        .btn-edit, .btn-delete {
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
         }
 
-        .btn-complete:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
+        .btn-edit   { background: #dbeafe; color: #1d4ed8; margin-right: 5px; }
+        .btn-delete { background: #fee2e2; color: #dc2626; }
+        .btn-edit:hover   { background: #bfdbfe; }
+        .btn-delete:hover { background: #fecaca; }
+
+        /* ── Edit Modal ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.45);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            background: #fff;
+            border-radius: 16px;
+            padding: 32px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 20px 50px rgba(0,0,0,.2);
+            animation: popIn .25s ease;
+        }
+
+        .modal h3 { color: #0B3D3E; font-family: 'Sora', sans-serif; margin-bottom: 20px; }
+
+        .modal .form-group { margin-bottom: 14px; }
+
+        .modal label { display: block; font-size: 12px; font-weight: 600; color: #5A7674; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .4px; }
+
+        .modal input {
+            width: 100%;
+            padding: 10px 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            transition: .2s;
+        }
+
+        .modal input:focus { border-color: #1F8A70; box-shadow: 0 0 0 3px rgba(31,138,112,.12); }
+
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+        .btn-save {
+            flex: 1;
+            padding: 11px;
+            background: #1F8A70;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn-save:hover { background: #176d57; }
+
+        .btn-cancel-modal {
+            flex: 1;
+            padding: 11px;
+            background: #f1f5f9;
+            color: #555;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn-cancel-modal:hover { background: #e2e8f0; }
+
+        .empty-msg { text-align: center; color: #aaa; padding: 30px; font-size: 15px; }
+
+        @keyframes popIn {
+            from { opacity: 0; transform: scale(.94); }
+            to   { opacity: 1; transform: scale(1); }
+        }
+
+        @media (max-width: 600px) {
+            .stats { grid-template-columns: 1fr 1fr; }
+            .main  { padding: 16px; }
         }
     </style>
 </head>
 <body>
 
+<!-- ── Header ── -->
+<div class="header">
     <h1>👨‍⚕️ Doctor Dashboard</h1>
-
-    <!-- Doctor Selector -->
-    <div class="selector-box">
-        <label for="doctorSelect">Select Doctor:</label>
-        <select id="doctorSelect">
-            <option value="Talha">Dr. Talha</option>
-            <option value="Javad">Dr. Javad</option>
-            <option value="Khadim">Dr. Khadim</option>
-        </select>
+    <div class="header-right">
+        <span class="doctor-name" id="doctorNameDisplay">Loading...</span>
+        <a href="/doctor-logout" class="btn-logout">Logout</a>
     </div>
+</div>
+
+<!-- ── Main ── -->
+<div class="main">
 
     <!-- Stats -->
     <div class="stats">
         <div class="stat-card">
-            <h3>Total Appointments</h3>
+            <h3>Total Patients</h3>
             <p id="totalCount">0</p>
         </div>
         <div class="stat-card">
+            <h3>Total Appointments</h3>
+            <p id="appointmentCount">0</p>
+        </div>
+        <div class="stat-card pending">
             <h3>Pending</h3>
             <p id="pendingCount">0</p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card completed">
             <h3>Completed</h3>
             <p id="completedCount">0</p>
+        </div>
+        <div class="stat-card cancelled">
+            <h3>Cancelled</h3>
+            <p id="cancelledCount">0</p>
         </div>
     </div>
 
     <!-- Appointments Table -->
     <div class="table-box">
+        <h2>📋 My Patients & Appointments</h2>
         <table>
             <thead>
                 <tr>
@@ -187,93 +285,214 @@
                     <th>Date</th>
                     <th>Time</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
-            <tbody id="tableBody">
-                <!-- Data yahan jQuery se aayega -->
-            </tbody>
+            <tbody id="tableBody"></tbody>
         </table>
     </div>
 
-    <script>
-        // Jab bhi page load ho ya dropdown change ho, data load karen
-        function loadDoctorAppointments() {
-            const doctorName = $("#doctorSelect").val();
+</div>
 
-            $.get(`/doctor-appointments/${doctorName}`, function (appointments) {
+<!-- ── Edit Modal ── -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <h3>✏️ Edit Patient</h3>
+        <form id="editForm">
+            <input type="hidden" id="editId">
+            <div class="form-group">
+                <label>Patient Name</label>
+                <input type="text" id="editName" placeholder="Full name" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="editEmail" placeholder="Email address" required>
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" id="editPhone" placeholder="Phone number" required>
+            </div>
+            <div class="form-group">
+                <label>Appointment Date</label>
+                <input type="date" id="editDate" required>
+            </div>
+            <div class="form-group">
+                <label>Appointment Time</label>
+                <input type="time" id="editTime" required>
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn-save">Save Changes</button>
+                <button type="button" class="btn-cancel-modal" id="closeModal">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-                $("#tableBody").empty();
+<script>
+    let appointments = [];
 
-                let pending = 0;
-                let completed = 0;
+    $(document).ready(function () {
+        loadDashboard();
+    });
 
-                appointments.forEach(function (item) {
-                    const isCompleted = item.status === "Completed";
+    // ── Load appointments from session-secured API ──────────────────────────
+    function loadDashboard() {
+        $.get("/api/doctor/appointments", function (data) {
+            if (!data.success) return;
 
-                    if (isCompleted) completed++;
-                    else pending++;
+            appointments = data.appointments;
 
-                    const statusClass = isCompleted ? "status-completed" : "status-pending";
+            // Show doctor name from session via first appointment's doctor field
+            // (or rely on session — the API only returns this doctor's data anyway)
+            if (appointments.length > 0) {
+                $("#doctorNameDisplay").text("Dr. " + appointments[0].Docter);
+            } else {
+                $("#doctorNameDisplay").text("Doctor");
+            }
 
-                    let row = `
-                        <tr>
-                            <td>${item.patientName}</td>
-                            <td>${item.patientEmail}</td>
-                            <td>${item.patientPhone}</td>
-                            <td>${item.appointmentDate}</td>
-                            <td>${item.appointmentTime}</td>
-                            <td class="${statusClass}">${item.status}</td>
-                            <td>
-                                <button class="btn-complete" data-id="${item._id}" ${isCompleted ? "disabled" : ""}>
-                                    ${isCompleted ? "Done" : "Mark Complete"}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                    $("#tableBody").append(row);
-                });
+            // Stats
+            const total     = appointments.length;
+            const pending   = appointments.filter(a => a.status === "Pending").length;
+            const completed = appointments.filter(a => a.status === "Completed").length;
+            const cancelled = appointments.filter(a => a.status === "Cancelled").length;
+            const uniquePatients = new Set(appointments.map(a => a.patientEmail)).size;
 
-                // Stats update karna
-                $("#totalCount").text(appointments.length);
-                $("#pendingCount").text(pending);
-                $("#completedCount").text(completed);
+            $("#totalCount").text(uniquePatients);
+            $("#appointmentCount").text(total);
+            $("#pendingCount").text(pending);
+            $("#completedCount").text(completed);
+            $("#cancelledCount").text(cancelled);
 
-            }).fail(function (error) {
-                console.log("Error fetching appointments:", error);
+            // Table
+            const tbody = $("#tableBody").empty();
+
+            if (total === 0) {
+                tbody.append('<tr><td colspan="7" class="empty-msg">No appointments yet</td></tr>');
+                return;
+            }
+
+            appointments.forEach(function (item) {
+                const statusClass = item.status === "Completed" ? "completed"
+                                  : item.status === "Cancelled"  ? "cancelled"
+                                  : "pending";
+
+                tbody.append(`
+                    <tr>
+                        <td>${item.patientName}</td>
+                        <td>${item.patientEmail}</td>
+                        <td>${item.patientPhone}</td>
+                        <td>${item.appointmentDate}</td>
+                        <td>${item.appointmentTime}</td>
+                        <td>
+                            <select class="status-select ${statusClass}" data-id="${item._id}">
+                                <option value="Pending"   ${item.status === "Pending"   ? "selected" : ""}>Pending</option>
+                                <option value="Completed" ${item.status === "Completed" ? "selected" : ""}>Completed</option>
+                                <option value="Cancelled" ${item.status === "Cancelled" ? "selected" : ""}>Cancelled</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn-edit"   onclick="openEdit('${item._id}')">Edit</button>
+                            <button class="btn-delete" onclick="deletePatient('${item._id}')">Delete</button>
+                        </td>
+                    </tr>
+                `);
             });
+
+        }).fail(function (xhr) {
+            if (xhr.status === 401) window.location.href = "/login";
+        });
+    }
+
+    // ── Status dropdown change ──────────────────────────────────────────────
+    $(document).on("change", ".status-select", function () {
+        const id     = $(this).data("id");
+        const status = $(this).val();
+        const $sel   = $(this);
+
+        $.ajax({
+            url: "/api/doctor/appointments/" + id + "/status",
+            type: "PATCH",
+            contentType: "application/json",
+            data: JSON.stringify({ status }),
+            success: function () {
+                // Update colour class without full reload
+                $sel.removeClass("pending completed cancelled")
+                    .addClass(status.toLowerCase());
+            },
+            error: function () {
+                alert("Could not update status. Please try again.");
+                loadDashboard();
+            }
+        });
+    });
+
+    // ── Open edit modal ─────────────────────────────────────────────────────
+    window.openEdit = function (id) {
+        const item = appointments.find(a => a._id === id);
+        if (!item) return;
+
+        $("#editId").val(id);
+        $("#editName").val(item.patientName);
+        $("#editEmail").val(item.patientEmail);
+        $("#editPhone").val(item.patientPhone);
+        $("#editDate").val(item.appointmentDate);
+        $("#editTime").val(item.appointmentTime);
+
+        $("#editModal").addClass("show");
+    };
+
+    // ── Close modal ─────────────────────────────────────────────────────────
+    $("#closeModal").on("click", function () { $("#editModal").removeClass("show"); });
+
+    $("#editModal").on("click", function (e) {
+        if ($(e.target).is("#editModal")) $("#editModal").removeClass("show");
+    });
+
+    // ── Save edits ──────────────────────────────────────────────────────────
+    $("#editForm").on("submit", async function (e) {
+        e.preventDefault();
+        const id = $("#editId").val();
+
+        try {
+            const res = await fetch("/api/doctor/patients/" + id, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    patientName:     $("#editName").val().trim(),
+                    patientEmail:    $("#editEmail").val().trim(),
+                    patientPhone:    $("#editPhone").val().trim(),
+                    appointmentDate: $("#editDate").val(),
+                    appointmentTime: $("#editTime").val()
+                })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                $("#editModal").removeClass("show");
+                loadDashboard();
+            } else {
+                alert("Error: " + data.message);
+            }
+        } catch (err) {
+            alert("Server error. Please try again.");
         }
+    });
 
-        // Page load hote hi data laayen
-        $(document).ready(function () {
-            loadDoctorAppointments();
+    // ── Delete patient ──────────────────────────────────────────────────────
+    window.deletePatient = function (id) {
+        if (!confirm("Delete this patient record? This cannot be undone.")) return;
 
-            // Dropdown change hone par naye doctor ka data laayen
-            $("#doctorSelect").on("change", function () {
-                loadDoctorAppointments();
-            });
-
-            // Har 5 second mein refresh karen
-            setInterval(loadDoctorAppointments, 5000);
+        $.ajax({
+            url: "/api/doctor/patients/" + id,
+            type: "DELETE",
+            success: function (data) {
+                if (data.success) loadDashboard();
+                else alert("Error: " + data.message);
+            },
+            error: function () { alert("Server error. Please try again."); }
         });
-
-        // "Mark Complete" button click
-        $(document).on("click", ".btn-complete", function () {
-            const id = $(this).data("id");
-
-            $.ajax({
-                url: `/markComplete/${id}`,
-                type: "PUT",
-                success: function (response) {
-                    console.log("Marked complete:", response);
-                    loadDoctorAppointments();   // table refresh kar diya
-                },
-                error: function (error) {
-                    console.log("Error:", error);
-                }
-            });
-        });
-    </script>
+    };
+</script>
 
 </body>
 </html>

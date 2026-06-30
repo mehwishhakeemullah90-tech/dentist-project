@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Admin Login — Dental Clinic</title>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <style>
+                @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+                * {
+                        margin: 0;
+                        padding: 0;
+                        box-sizing: border-box;
+                        font-family: 'Poppins', sans-serif;
+                }
+
+                body {
+                        background: linear-gradient(135deg, #0f4c81, #2b7de9);
+                        min-height: 100vh;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-direction: column;
+                        padding: 20px;
+                }
+
+                .login-card {
+                        background: #fff;
+                        border-radius: 18px;
+                        padding: 45px 40px;
+                        width: 100%;
+                        max-width: 400px;
+                        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+                        animation: fadeIn .6s ease;
+                }
+
+                .login-card h1 {
+                        color: #0f4c81;
+                        font-size: 28px;
+                        font-weight: 700;
+                        text-align: center;
+                        margin-bottom: 8px;
+                }
+
+                .login-card p.subtitle {
+                        color: #888;
+                        font-size: 14px;
+                        text-align: center;
+                        margin-bottom: 30px;
+                }
+
+                .form-group {
+                        margin-bottom: 18px;
+                }
+
+                .form-group label {
+                        display: block;
+                        font-size: 13px;
+                        font-weight: 600;
+                        color: #555;
+                        margin-bottom: 6px;
+                }
+
+                .form-group input {
+                        width: 100%;
+                        padding: 13px 15px;
+                        border: 1px solid #ddd;
+                        border-radius: 10px;
+                        font-size: 14px;
+                        outline: none;
+                        background: #fafafa;
+                        transition: .3s;
+                }
+
+                .form-group input:focus {
+                        border-color: #0f4c81;
+                        background: #fff;
+                        box-shadow: 0 0 8px rgba(15, 76, 129, .2);
+                }
+
+                button[type="submit"] {
+                        width: 100%;
+                        padding: 14px;
+                        border: none;
+                        border-radius: 10px;
+                        background: linear-gradient(135deg, #0f4c81, #2b7de9);
+                        color: #fff;
+                        font-size: 16px;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: .3s;
+                        margin-top: 6px;
+                }
+
+                button[type="submit"]:hover {
+                        transform: translateY(-2px);
+                        box-shadow: 0 10px 20px rgba(43, 125, 233, .35);
+                }
+
+                #message {
+                        text-align: center;
+                        margin-top: 16px;
+                        font-size: 14px;
+                        font-weight: 500;
+                        min-height: 20px;
+                }
+
+                .error {
+                        color: #d9534f;
+                }
+
+                .success {
+                        color: #1F8A70;
+                }
+
+                .links {
+                        text-align: center;
+                        margin-top: 20px;
+                        font-size: 13px;
+                        color: #888;
+                }
+
+                .links a {
+                        color: #2b7de9;
+                        text-decoration: none;
+                }
+
+                .links a:hover {
+                        text-decoration: underline;
+                }
+
+                @keyframes fadeIn {
+                        from {
+                                opacity: 0;
+                                transform: translateY(20px);
+                        }
+
+                        to {
+                                opacity: 1;
+                                transform: translateY(0);
+                        }
+                }
+        </style>
+</head>
+
+<body>
+
+        <div class="login-card">
+                <h1>🛡️ Admin Login</h1>
+                <p class="subtitle">Dental Clinic Management System</p>
+
+                <form id="adminLoginForm">
+                        <div class="form-group">
+                                <label for="email">Admin Email</label>
+                                <input type="email" id="email" placeholder="Enter admin email" required>
+                        </div>
+                        <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" placeholder="Enter password" required>
+                        </div>
+                        <button type="submit">Login</button>
+                </form>
+
+                <p id="message"></p>
+
+                <div class="links">
+                        <a href="/login">Doctor Login</a>
+                </div>
+        </div>
+
+        <script>
+                $("#adminLoginForm").on("submit", async function (e) {
+                        e.preventDefault();
+
+                        const email = $("#email").val().trim();
+                        const password = $("#password").val();
+
+                        try {
+                                const res = await fetch("/admin-login", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ email, password })
+                                });
+
+                                const data = await res.json();
+
+                                if (data.success) {
+                                        $("#message").removeClass("error").addClass("success").text("Login successful! Redirecting...");
+                                        window.location.href = "/admin";
+                                } else {
+                                        $("#message").removeClass("success").addClass("error").text("❌ " + data.message);
+                                }
+
+                        } catch (err) {
+                                $("#message").removeClass("success").addClass("error").text("❌ Server error. Please try again.");
+                        }
+                });
+        </script>
+
+</body>
+
+</html>>
