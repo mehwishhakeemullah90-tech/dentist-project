@@ -8,7 +8,7 @@ const {
     updateAppointmentStatus,
     updatePatient,
     deletePatient
-} = require("../controllers/UserDocter.js");
+} = require("../controllers/UserDoctor.js");
 
 const { isDoctor, isDoctorAPI } = require("../middleware/authMiddleware.js");
 
@@ -17,12 +17,12 @@ router.post("/doctor-login", doctorLogin);
 
 router.get("/doctor-logout", (req, res) => {
     req.session.destroy();
-    res.redirect("/login");  // back to doctor login page
+    res.redirect("/");
 });
 
 // ── Doctor dashboard page (protected) ─────────────────────────────────────
 router.get("/doctor", isDoctor, (req, res) => {
-    res.sendFile(path.join(__dirname, "../views/userdocter.html"));
+    res.sendFile(path.join(__dirname, "../views/userdoctor.html"));
 });
 
 // ── API: appointments (session-based — only this doctor's data) ────────────

@@ -1,6 +1,6 @@
 const RegisterUser = require("../models/registerModel.js");
 const Appointment = require("../models/userForm.js");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 // POST /doctor-login
 exports.doctorLogin = async (req, res) => {

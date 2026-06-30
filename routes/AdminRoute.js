@@ -11,7 +11,7 @@ router.post("/admin-login", loginUser);
 
 router.get("/admin-logout", (req, res) => {
     req.session.destroy();
-    res.redirect("/admin-login-page");
+    res.redirect("/");
 });
 
 // ── Admin dashboard page (protected) ──────────────────────────────────────

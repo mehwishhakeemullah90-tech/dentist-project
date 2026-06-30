@@ -420,6 +420,7 @@
                 const result = await res.json();
 
                 if (res.ok && result.success) {
+                    closeLogin();
                     Swal.fire({
                         title: "Login Successful!",
                         text: "Welcome Admin",

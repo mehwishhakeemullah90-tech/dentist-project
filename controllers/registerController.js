@@ -1,5 +1,5 @@
 const User = require("../models/registerModel.js");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 // CREATE — Naya account banana
 exports.createUser = async (req, res) => {

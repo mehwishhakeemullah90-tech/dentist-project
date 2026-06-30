@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 // POST /signup
 exports.postSignup = async (req, res) => {

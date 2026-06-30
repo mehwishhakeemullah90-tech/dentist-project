@@ -8,17 +8,237 @@
     <title>Assistant Dashboard</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
-        body {
+
+        /* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f7fc;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+/* Main Container */
+
+.container-fluid{
+    width:95%;
+    max-width:1300px;
+    margin:35px auto;
+}
+
+/* Dashboard Box */
+
+.dashboard-heading{
+    background:#fff;
+    border-radius:18px;
+    padding:30px;
+    box-shadow:0 12px 30px rgba(0,0,0,.08);
+}
+
+/* Header */
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:25px;
+    border-bottom:2px solid #eef2f7;
+    padding-bottom:15px;
+}
+
+.header h2{
+    color:#0f4c81;
+    font-size:30px;
+    font-weight:700;
+}
+
+/* Table */
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:900px;
+    overflow:hidden;
+}
+
+thead{
+    background:linear-gradient(135deg,#0f4c81,#2b7de9);
+    color:#fff;
+}
+
+th{
+    padding:16px;
+    text-align:left;
+    font-size:15px;
+    font-weight:600;
+}
+
+td{
+    padding:18px 15px;
+    color:#444;
+    border-bottom:1px solid #e9ecef;
+    vertical-align:middle;
+    font-size:14px;
+}
+
+.action-cell{
+    white-space:nowrap;
+}
+
+.num-col{
+    width:50px;
+    text-align:center;
+}
+
+td.num-cell{
+    text-align:center;
+    font-weight:600;
+    color:#0f4c81;
+}
+
+tbody tr{
+    transition:.3s;
+}
+
+tbody tr:hover{
+    background:#eef5ff;
+}
+
+/* Editing Row */
+
+.editing{
+    background:#fff8e6 !important;
+}
+
+/* Inputs */
+
+.edit-input{
+    width:100%;
+    padding:9px 12px;
+    border:1px solid #cfd8dc;
+    border-radius:8px;
+    outline:none;
+    font-size:14px;
+    transition:.3s;
+}
+
+.edit-input:focus{
+    border-color:#0f4c81;
+    box-shadow:0 0 8px rgba(43,125,233,.2);
+}
+
+/* Buttons */
+
+.btn{
+    border:none;
+    border-radius:7px;
+    padding:8px 18px;
+    font-size:13px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+    margin:3px 2px;
+    display:inline-block;
+}
+
+/* Edit */
+
+.btn-primary{
+    background:#2b7de9;
+    color:#fff;
+}
+
+.btn-primary:hover{
+    background:#1666d3;
+    transform:translateY(-2px);
+}
+
+/* Delete */
+
+.btn-danger{
+    background:#e53935;
+    color:#fff;
+}
+
+.btn-danger:hover{
+    background:#c62828;
+    transform:translateY(-2px);
+}
+
+/* Save */
+
+.btn-success{
+    background:#28a745;
+    color:#fff;
+}
+
+.btn-success:hover{
+    background:#1f8a37;
+    transform:translateY(-2px);
+}
+
+/* Cancel */
+
+.btn-secondary{
+    background:#6c757d;
+    color:#fff;
+}
+
+.btn-secondary:hover{
+    background:#555d64;
+    transform:translateY(-2px);
+}
+
+/* Footer */
+
+footer{
+    margin-top:auto;
+    background:#0f4c81;
+    color:#fff;
+    text-align:center;
+    padding:18px;
+    font-size:14px;
+    letter-spacing:.5px;
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+    .dashboard-heading{
+        padding:20px;
+    }
+
+    .header h2{
+        font-size:24px;
+    }
+
+    table{
+        min-width:800px;
+    }
+
+}
+        /* body {
             background: #f4f7fc;
             font-family: Arial, Helvetica, sans-serif;
         }
 
-        /* Dashboard Container */
         .container-fluid {
             padding: 40px;
         }
 
-        /* Card */
         .dashboard-card {
             background: #fff;
             border-radius: 15px;
@@ -26,42 +246,31 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
 
-        /* Heading */
-        .dashboard-card h2 {
-            text-align: center;
-            color: #0d6efd;
-            font-weight: bold;
+        .header {
+            width: 100%;
+            background: linear-gradient(135deg, #0d6efd, #4f46e5);
+            padding: 18px 25px;
+            border-radius: 12px;
             margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
         }
 
+        .header h2 {
+            margin: 0;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-align: center;
+            text-transform: uppercase;
+        }
 
-        .header{
-    width:100%;
-    background:linear-gradient(135deg,#0d6efd,#4f46e5);
-    padding:18px 25px;
-    border-radius:12px;
-    margin-bottom:25px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.15);
-}
-
-.header h2{
-    margin:0;
-    color:#fff;
-    font-size:28px;
-    font-weight:700;
-    letter-spacing:1px;
-    text-align:center;
-    text-transform:uppercase;
-}
-
-        /* Table */
         table {
             width: 100%;
             border-collapse: collapse;
             overflow: hidden;
         }
 
-        /* Header */
         thead {
             background: #0d6efd;
             color: white;
@@ -74,34 +283,29 @@
             letter-spacing: .5px;
         }
 
-        /* Body */
         tbody td {
-            padding: 15px;
+            padding: 10px;
             text-align: center;
             border: 1px solid #ddd;
-            transition: .3s;
         }
 
-        /* Alternate Row Color */
         tbody tr:nth-child(even) {
             background: #f8f9fa;
         }
 
-        /* Hover Effect */
         tbody tr:hover {
             background: #dbeafe;
-            cursor: pointer;
-            transform: scale(1.01);
-            transition: 0.3s ease;
         }
 
-        /* Responsive */
+        tbody tr.editing {
+            background: #fffbeb !important;
+        }
+
         .table-responsive {
             overflow-x: auto;
             border: 2px solid grey;
         }
 
-        /* Scrollbar */
         .table-responsive::-webkit-scrollbar {
             height: 8px;
         }
@@ -110,6 +314,20 @@
             background: #0d6efd;
             border-radius: 10px;
         }
+
+        .edit-input {
+            width: 100%;
+            min-width: 90px;
+            padding: 4px 7px;
+            border: 1px solid #0d6efd;
+            border-radius: 5px;
+            font-size: 13px;
+            outline: none;
+        }
+
+        .edit-input:focus {
+            box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+        } */
     </style>
 </head>
 
@@ -123,143 +341,136 @@
                 <table>
                     <thead>
                         <tr>
+                            <th class="num-col">#</th>
                             <th>Naam</th>
                             <th>Email</th>
                             <th>Phone</th>
-                            <th>doctor</th>
+                            <th>Doctor</th>
                             <th>Date</th>
                             <th>Time</th>
-                            <th>Ation</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-
-                    <tbody id="tableBody">
-                        <!-- Data yahan jQuery se aayega -->
-                    </tbody>
-                    
+                    <tbody id="tableBody"></tbody>
                 </table>
-               
             </div>
-              <div id="users"></div>
         </div>
     </div>
 
-     <footer>
-            © 2026 Your Clinic | Caring For Your Health
-        </footer>
+    <footer>© 2026 Your Clinic | Caring For Your Health</footer>
 
     <script>
-        // Function jo data load kar ke table mein dikhata hai
+        let isEditing = false;
+        let autoRefresh;
+
+        function startAutoRefresh() {
+            autoRefresh = setInterval(function () {
+                if (!isEditing) loadAppointments();
+            }, 3000);
+        }
+
         function loadAppointments() {
             $.get("/getall", function (appointments) {
-
-                $("#tableBody").empty(); // pehle purana data hata diya
-
-                appointments.forEach(function (item) {
+                $("#tableBody").empty();
+                appointments.forEach(function (item, index) {
                     let row = `
-                        <tr>
+                        <tr data-id="${item._id}">
+                            <td class="num-cell">${index + 1}</td>
                             <td>${item.patientName}</td>
                             <td>${item.patientEmail}</td>
                             <td>${item.patientPhone}</td>
                             <td>${item.Docter}</td>
                             <td>${item.appointmentDate}</td>
                             <td>${item.appointmentTime}</td>
-
-                            <td>
-                                <button class="btn btn-primary btn-sm"
-                                onclick="editUser('${item._id}')">
-                                Edit
-                                </button>
-
-                                <button class="btn btn-danger btn-sm"
-                                onclick="deleteUser('${item._id}')">
-                                Delet
-                                </button>
+                            <td class="action-cell">
+                                <button class="btn btn-primary btn-sm edit-btn">Edit</button>
+                                <button class="btn btn-danger btn-sm delete-btn">Delete</button>
                             </td>
-                        </tr>
-                    `;
+                        </tr>`;
                     $("#tableBody").append(row);
                 });
             }).fail(function (error) {
-                console.log("error is here", error)
-            })
+                console.log("error:", error);
+            });
         }
 
-        
-        $(document).ready(function () {
-            loadAppointments();
-            setInterval(loadAppointments, 3000);
-        })
-        // --------------------------------------------------------------
-        // --------------------------------------------------------------
-        // --------------------------------------------------------------
+        // Edit button click — row ko inputs mein badlo
+        $(document).on("click", ".edit-btn", function () {
+            const $row = $(this).closest("tr");
+            const $tds = $row.find("td");
 
+            const name  = $tds.eq(1).text();
+            const email = $tds.eq(2).text();
+            const phone = $tds.eq(3).text();
+            const doc   = $tds.eq(4).text();
+            const date  = $tds.eq(5).text();
+            const time  = $tds.eq(6).text();
 
-        let editUserId = null;   // FIX: was commented out — caused ReferenceError on Edit click
+            $tds.eq(1).html(`<input class="edit-input" type="text"  value="${name}">`);
+            $tds.eq(2).html(`<input class="edit-input" type="email" value="${email}">`);
+            $tds.eq(3).html(`<input class="edit-input" type="text"  value="${phone}">`);
+            $tds.eq(4).html(`<input class="edit-input" type="text"  value="${doc}">`);
+            $tds.eq(5).html(`<input class="edit-input" type="date"  value="${date}">`);
+            $tds.eq(6).html(`<input class="edit-input" type="time"  value="${time}">`);
+            $tds.eq(7).html(`
+                <button class="btn btn-success btn-sm save-btn">Save</button>
+                <button class="btn btn-secondary btn-sm cancel-btn">Cancel</button>
+            `);
 
-        window.editUser = async function (id) {
-            editUserId = id;
-            let html = `
-                <h3>Edit Appointment</h3>
-                <input id="editName" type="text" placeholder="New Name">
-                <input id="editEmail" type="text" placeholder="New Email">
-                <input id="editPhone" type="text" placeholder="New Phone">
-                <input id="editDocter" type="text" placeholder="Doctor Name">
-                <input id="editDate" type="date">
-                <input id="editTime" type="time">
-                <button id="updateBtn" class="btn btn-success btn-sm">Update</button>
-            `;
-            $("#users").html(html);
-        };
+            $row.addClass("editing");
+            isEditing = true;
+        });
 
-        $(document).on("click", "#updateBtn", async function () {
-             
-            console.log("Updating ID:", editUserId);
+        // Save button — server ko update bhejo
+        $(document).on("click", ".save-btn", async function () {
+            const $row = $(this).closest("tr");
+            const id   = $row.data("id");
+            const $tds = $row.find("td");
 
-            const patientName = $("#editName").val();
-            const patientEmail = $("#editEmail").val();
-            const patientPhone = $("#editPhone").val();
-            const Docter = $("#editDocter").val();       
-            const appointmentDate = $("#editDate").val();
-            const appointmentTime = $("#editTime").val();
+            const body = {
+                patientName:     $tds.eq(1).find("input").val(),
+                patientEmail:    $tds.eq(2).find("input").val(),
+                patientPhone:    $tds.eq(3).find("input").val(),
+                Docter:          $tds.eq(4).find("input").val(),
+                appointmentDate: $tds.eq(5).find("input").val(),
+                appointmentTime: $tds.eq(6).find("input").val()
+            };
 
-            const res = await fetch(`/updateAppointment/${editUserId}`, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    patientName,
-                    patientEmail,
-                    patientPhone,
-                    Docter,                               
-                    appointmentDate,
-                    appointmentTime
-                })
-            });
-
-            const data = await res.json();
-            console.log("Updated:", data);
-
-             if (!data || data.message === "Appointment not found") {
-                    alert("not wroking check again ");
-                    loadAppointments();
-                    return;
+            try {
+                const res  = await fetch(`/updateAppointment/${id}`, {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(body)
+                });
+                const data = await res.json();
+                if (!data || data.message === "Appointment not found") {
+                    alert("Update nahi hua, dobara try karein.");
                 }
+            } catch (err) {
+                alert("Server error.");
+            }
 
-            $("#users").html("");   // edit form band kar diya
+            isEditing = false;
             loadAppointments();
         });
 
-        window.deleteUser = async function (id) {
-            const res = await fetch(`/deleteAppointment/${id}`, { method: "DELETE" });
-            const data = await res.json();
-            console.log("Deleted:", data);
+        // Cancel — kuch mat karo, wapas normal view
+        $(document).on("click", ".cancel-btn", function () {
+            isEditing = false;
             loadAppointments();
-        };
+        });
 
-        // -----------------------------------------------------
-        // -----------------------------------------------------
-        // -----------------------------------------------------
+        // Delete
+        $(document).on("click", ".delete-btn", async function () {
+            const id = $(this).closest("tr").data("id");
+            await fetch(`/deleteAppointment/${id}`, { method: "DELETE" });
+            loadAppointments();
+        });
 
+        $(document).ready(function () {
+            loadAppointments();
+            startAutoRefresh();
+        });
     </script>
 
 </body>
