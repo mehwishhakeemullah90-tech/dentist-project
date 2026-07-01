@@ -41,8 +41,17 @@ exports.doctorLogin = async (req, res) => {
 exports.getDoctorAppointments = async (req, res) => {
     try {
         const doctorName = req.session.doctorName;
-        const appointments = await Appointment.find({ Docter: doctorName }).sort({ createdAt: -1 });
-        res.json({ success: true, appointments });
+
+        // Partial case-insensitive match: doctor account "khadim" matches "DR Khadim" in appointments
+        const nameRegex = new RegExp(
+            doctorName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"),
+            "i"
+        );
+
+        const appointments = await Appointment.find({ Docter: nameRegex }).sort({ createdAt: -1 });
+
+        // Always return doctorName from session so the UI can display it even with 0 appointments
+        res.json({ success: true, appointments, doctorName });
     } catch (error) {
         res.status(500).json({ success: false, message: "Error fetching appointments" });
     }

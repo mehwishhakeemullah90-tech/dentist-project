@@ -342,13 +342,9 @@
 
             appointments = data.appointments;
 
-            // Show doctor name from session via first appointment's doctor field
-            // (or rely on session — the API only returns this doctor's data anyway)
-            if (appointments.length > 0) {
-                $("#doctorNameDisplay").text("Dr. " + appointments[0].Docter);
-            } else {
-                $("#doctorNameDisplay").text("Doctor");
-            }
+            // doctorName is now returned directly from the session by the API,
+            // so the header always shows the correct name even with 0 appointments
+            $("#doctorNameDisplay").text("Dr. " + (data.doctorName || "Doctor"));
 
             // Stats
             const total     = appointments.length;
@@ -415,9 +411,11 @@
             contentType: "application/json",
             data: JSON.stringify({ status }),
             success: function () {
-                // Update colour class without full reload
+                // Update colour class on the dropdown immediately
                 $sel.removeClass("pending completed cancelled")
                     .addClass(status.toLowerCase());
+                // Reload to keep the counter cards (Pending/Completed/Cancelled) accurate
+                loadDashboard();
             },
             error: function () {
                 alert("Could not update status. Please try again.");
