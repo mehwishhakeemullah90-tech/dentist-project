@@ -1,43 +1,43 @@
-const User = require("../models/registerModel.js");
+const User = require("../models/User.js");
 const bcrypt = require("bcryptjs");
 
-// CREATE — Naya account banana
+// POST /api/admin/doctors — Admin creates a new doctor account
 exports.createUser = async (req, res) => {
     try {
-        console.log("Received data:", req.body);
+        const { fullName, email, password, role } = req.body;
 
-        const existingUser = await User.findOne({ email: req.body.email });
-
-        if (existingUser) {
-            return res.status(400).json({ message: "Ye email already registered hai" });
+        if (!fullName || !email || !password) {
+            return res.status(400).json({ message: "Name, email, and password are required" });
         }
 
-        // Password hash karo plain text save mat karo
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        const existingUser = await User.findOne({ email: email.toLowerCase().trim() });
+        if (existingUser) {
+            return res.status(400).json({ message: "This email is already registered" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
 
         const newUser = await User.create({
-            ...req.body,
-            password: hashedPassword
+            name: fullName,
+            email: email.toLowerCase().trim(),
+            password: hashedPassword,
+            role: role || "doctor"
         });
 
         res.status(201).json({
-            message: "Account successfully ban gaya",
-            data: { fullName: newUser.fullName, email: newUser.email, role: newUser.role }
+            message: "Doctor account created successfully",
+            data: { name: newUser.name, email: newUser.email, role: newUser.role }
         });
 
     } catch (error) {
-        console.log("Error:", error);
-        res.status(500).json({
-            message: "Account banane mein error aaya",
-            error: error.message
-        });
+        res.status(500).json({ message: "Error creating account", error: error.message });
     }
 };
 
-// READ
+// GET /getusers
 exports.getUsers = async (req, res) => {
     try {
-        const users = await User.find().select("-password");  // password field wapis mat bhejo
+        const users = await User.find({ role: "doctor" }).select("-password");
         res.json(users);
     } catch (error) {
         res.status(500).json({ message: "Error fetching users" });

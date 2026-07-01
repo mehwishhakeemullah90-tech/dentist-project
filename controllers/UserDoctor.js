@@ -1,4 +1,4 @@
-const RegisterUser = require("../models/registerModel.js");
+const User = require("../models/User.js");
 const Appointment = require("../models/userForm.js");
 const bcrypt = require("bcryptjs");
 
@@ -11,8 +11,8 @@ exports.doctorLogin = async (req, res) => {
             return res.status(400).json({ success: false, message: "Email and password are required" });
         }
 
-        // Look up in RegisterForm collection (role must be "doctor")
-        const doctor = await RegisterUser.findOne({
+        // Look up in Users collection where role is "doctor"
+        const doctor = await User.findOne({
             email: email.toLowerCase().trim(),
             role: "doctor"
         });
@@ -28,9 +28,9 @@ exports.doctorLogin = async (req, res) => {
 
         req.session.isDoctor = true;
         req.session.doctorId = doctor._id;
-        req.session.doctorName = doctor.fullName;
+        req.session.doctorName = doctor.name;
 
-        res.json({ success: true, doctorName: doctor.fullName });
+        res.json({ success: true, doctorName: doctor.name });
 
     } catch (error) {
         res.status(500).json({ success: false, message: "Server error" });

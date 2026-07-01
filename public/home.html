@@ -34,7 +34,7 @@
                 <ul class="nav-links" id="navLinks">
                     <li><a href="#" class="active">Home</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="/views/userdocter.html">Doctors</a></li>
+                    <li><a href="#" onclick="openDoctorLogin(); return false;">Doctors</a></li>
                     <li><a href="service/service.html">Services</a></li>
                     <li><a href="help/helpcare.html">Contact</a></li>
                 </ul>
@@ -289,7 +289,7 @@
         <button onclick="openLogin()">Admin Login</button>
     </div>
 
-    <!-- Overlay -->
+    <!-- Admin Overlay -->
     <div id="overlay" class="overlay">
 
         <div class="login-box">
@@ -312,6 +312,20 @@
 
         </div>
 
+    </div>
+
+    <!-- Doctor Login Overlay -->
+    <div id="doctorOverlay" class="overlay">
+        <div class="login-box">
+            <span class="close-btn" onclick="closeDoctorLogin()">×</span>
+            <h2>👨‍⚕️ Doctor Login</h2>
+            <form id="doctorLoginForm">
+                <input type="email" id="doctorEmail" placeholder="Doctor Email" required>
+                <input type="password" id="doctorPassword" placeholder="Password" required>
+                <button type="submit">Login</button>
+            </form>
+            <p id="doctorMsg" style="text-align:center; margin-top:10px; font-size:14px; color:#d9534f;"></p>
+        </div>
     </div>
 
 
@@ -492,9 +506,55 @@
         })
 
 
+        // ── Doctor Login ──────────────────────────────────────────────────────
+        function openDoctorLogin() {
+            document.getElementById("doctorOverlay").style.display = "flex";
+            document.getElementById("doctorMsg").textContent = "";
+        }
+
+        function closeDoctorLogin() {
+            document.getElementById("doctorOverlay").style.display = "none";
+            document.getElementById("doctorLoginForm").reset();
+        }
+
+        document.getElementById("doctorLoginForm").addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const email    = document.getElementById("doctorEmail").value;
+            const password = document.getElementById("doctorPassword").value;
+            const msg      = document.getElementById("doctorMsg");
+
+            try {
+                const res = await fetch("/doctor-login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const result = await res.json();
+
+                if (res.ok && result.success) {
+                    closeDoctorLogin();
+                    Swal.fire({
+                        title: "Login Successful!",
+                        text: "Welcome Dr. " + (result.doctorName || ""),
+                        icon: "success",
+                        confirmButtonText: "Continue"
+                    }).then(() => {
+                        window.location.href = "/doctor";
+                    });
+                } else {
+                    msg.textContent = "❌ " + (result.message || "Invalid email or password");
+                }
+
+            } catch (error) {
+                msg.textContent = "❌ Server se connection nahi ho saka";
+            }
+        });
+
         // emergency
 
-        
+
         function emergencyline() {
 
             let number = prompt("Please Enter Your Mobile Number");

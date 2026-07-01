@@ -391,7 +391,7 @@ function loadDoctors() {
             tbody.append(`
                 <tr>
                     <td>${i + 1}</td>
-                    <td>${dr.fullName}</td>
+                    <td>${dr.name}</td>
                     <td>${dr.email}</td>
                     <td>${date}</td>
                     <td><button class="btn-danger" onclick="deleteDoctor('${dr._id}')">Delete</button></td>
