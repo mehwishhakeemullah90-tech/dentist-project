@@ -74,11 +74,15 @@ app.use((err, req, res, next) => {
 mongoose.connect(MDB)
     .then(() => {
         console.log("MongoDB connected:", mongoose.connection.name);
-        app.listen(PORT, () => {
-            console.log(`Server running → http://localhost:${PORT}`);
-        });
+        if (process.env.VERCEL !== "1") {
+            app.listen(PORT, () => {
+                console.log(`Server running → http://localhost:${PORT}`);
+            });
+        }
     })
     .catch((err) => {
         console.error("MongoDB connection error:", err.message);
-        process.exit(1);
+        if (process.env.VERCEL !== "1") process.exit(1);
     });
+
+module.exports = app;
