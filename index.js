@@ -9,9 +9,7 @@ const adminRoute        = require("./routes/AdminRoute.js");
 const appointmentRoutes = require("./routes/patientRoute.js");
 const assistantRoute    = require("./routes/assistantRoute.js");
 const userdoctorRoute   = require("./routes/UserDoctorRoute.js");
-const registerRoute     = require("./routes/registerRoute.js");
 const authRoute         = require("./routes/authRoute.js");
-const taskRoute         = require("./routes/taskRoute.js");
 
 const { isAssistant } = require("./middleware/authMiddleware.js");
 
@@ -53,13 +51,11 @@ app.get("/", (req, res) => {
 });
 
 // ── Routes ────────────────────────────────────────────────────────────────────
-app.use("/", authRoute);         // /login, /admin-login-page, /register-form
+app.use("/", authRoute);         // /login, /api/login, /api/me, /logout
 app.use("/", adminRoute);        // /admin-login, /admin, /admin-logout, /api/admin/*
 app.use("/", userdoctorRoute);   // /doctor-login, /doctor, /doctor-logout, /api/doctor/*
-app.use("/", registerRoute);     // /register
 app.use("/", appointmentRoutes); // /submit-form, /getall, /update/:id, /deleteUser/:id
 app.use("/", assistantRoute);    // /updateAppointment/:id, /deleteAppointment/:id
-app.use("/", taskRoute);         // /dashboard, /tasks (task-manager feature)
 
 // ── 404 handler ───────────────────────────────────────────────────────────────
 app.use((req, res) => {
