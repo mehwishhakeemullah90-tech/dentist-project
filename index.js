@@ -72,8 +72,23 @@ app.use((err, req, res, next) => {
 
 // ── MongoDB + server start ────────────────────────────────────────────────────
 mongoose.connect(MDB)
-    .then(() => {
+    .then(async () => {
         console.log("MongoDB connected:", mongoose.connection.name);
+
+        // Auto-create admin account on first run
+        const User = require("./models/User.js");
+        const bcrypt = require("bcryptjs");
+        const adminEmail = process.env.ADMIN_EMAIL;
+        const adminPass  = process.env.ADMIN_PASSWORD;
+        if (adminEmail && adminPass) {
+            const exists = await User.findOne({ email: adminEmail.toLowerCase(), role: "admin" });
+            if (!exists) {
+                const hashed = await bcrypt.hash(adminPass, 10);
+                await User.create({ name: "Admin", email: adminEmail.toLowerCase(), password: hashed, role: "admin" });
+                console.log("Admin account created:", adminEmail);
+            }
+        }
+
         if (process.env.VERCEL !== "1") {
             app.listen(PORT, () => {
                 console.log(`Server running → http://localhost:${PORT}`);

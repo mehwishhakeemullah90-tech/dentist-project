@@ -8,6 +8,7 @@
  * Safe to run multiple times — it skips creation if the admin already exists.
  */
 
+require("dns").setServers(["8.8.8.8", "8.8.4.4"]);
 const mongoose = require("mongoose");
 const bcrypt   = require("bcryptjs");
 require("dotenv").config();
