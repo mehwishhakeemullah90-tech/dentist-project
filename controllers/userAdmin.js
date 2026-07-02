@@ -9,7 +9,7 @@ const loginUser = async (req, res) => {
         if (!email || !password) {
             return res.status(400).json({ success: false, message: "Email and password are required" });
         }
-
+//login admin and password logic is here
         if (email === process.env.ADMIN_EMAIL && password === process.env.ADMIN_PASSWORD) {
             req.session.isAdmin = true;
             req.session.adminEmail = email;
@@ -56,10 +56,11 @@ const getAdminStats = async (req, res) => {
     }
 };
 
-// GET /api/admin/doctors — list all doctors (no passwords)
+// GET /api/admin/doctors — list all staff: doctors AND assistants (no passwords)
 const getDoctors = async (req, res) => {
     try {
-        const doctors = await User.find({ role: "doctor" }).select("-password").sort({ createdAt: -1 });
+        const doctors = await User.find({ role: { $in: ["doctor", "assistant"] } })
+            .select("-password").sort({ createdAt: -1 });
         res.json({ success: true, doctors });
     } catch (error) {
         res.status(500).json({ success: false, message: "Server error" });
