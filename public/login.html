@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login — Dental Clinic</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Sora:wght@600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f4c81 0%, #2b7de9 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 48px 40px 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.22);
+            animation: slideUp 0.35s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(18px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 34px;
+        }
+
+        .logo-icon { font-size: 46px; display: block; }
+
+        .logo h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 22px;
+            color: #0f4c81;
+            margin-top: 10px;
+        }
+
+        .logo p {
+            font-size: 13px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* ── role pills (shown after typing email) ── */
+        .role-hint {
+            display: none;
+            text-align: center;
+            margin-bottom: 18px;
+        }
+
+        /* ── error banner ── */
+        .error-box {
+            display: none;
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #dc2626;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        /* ── form ── */
+        .form-group { margin-bottom: 18px; }
+
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            padding: 13px 15px;
+            border: 2px solid #e8ecf0;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #222;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus {
+            border-color: #2b7de9;
+            box-shadow: 0 0 0 3px rgba(43, 125, 233, 0.12);
+        }
+
+        /* password toggle */
+        .pw-wrap { position: relative; }
+
+        .pw-toggle {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            color: #aaa;
+            padding: 0;
+        }
+
+        /* ── submit button ── */
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0f4c81, #2b7de9);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+            margin-top: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-login:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(43, 125, 233, 0.35);
+        }
+
+        .btn-login:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+        /* ── welcome message ── */
+        .welcome-box {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .role-badge {
+            display: inline-block;
+            padding: 3px 11px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 5px;
+        }
+
+        .badge-admin     { background: #dbeafe; color: #1d4ed8; }
+        .badge-doctor    { background: #d1fae5; color: #065f46; }
+        .badge-assistant { background: #fef3c7; color: #92400e; }
+
+        /* ── back link ── */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 26px;
+            font-size: 13px;
+            color: #aaa;
+        }
+
+        .back-link a {
+            color: #2b7de9;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .back-link a:hover { text-decoration: underline; }
+
+        @media (max-width: 480px) {
+            .card { padding: 36px 24px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+
+    <div class="logo">
+        <span class="logo-icon">🦷</span>
+        <h1>Dental Clinic</h1>
+        <p>Staff Portal — Secure Login</p>
+    </div>
+
+    <div id="errorBox" class="error-box"></div>
+
+    <form id="loginForm" novalidate>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="your@email.com"
+                   autocomplete="email" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="pw-wrap">
+                <input type="password" id="password" placeholder="••••••••"
+                       autocomplete="current-password" required>
+                <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">👁</button>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-login" id="loginBtn">Sign In</button>
+    </form>
+
+    <div id="welcomeBox" class="welcome-box"></div>
+
+    <p class="back-link">Patient? <a href="/">Book an Appointment</a></p>
+
+</div>
+
+<script>
+    // ── redirect destinations per role ──────────────────────────────────────
+    const REDIRECT = {
+        admin:     "/admin",
+        doctor:    "/doctor",
+        assistant: "/assistant"
+    };
+
+    const form       = document.getElementById("loginForm");
+    const errorBox   = document.getElementById("errorBox");
+    const loginBtn   = document.getElementById("loginBtn");
+    const welcomeBox = document.getElementById("welcomeBox");
+    const pwToggle   = document.getElementById("pwToggle");
+    const pwInput    = document.getElementById("password");
+
+    // ── password show/hide ──────────────────────────────────────────────────
+    pwToggle.addEventListener("click", () => {
+        const show = pwInput.type === "password";
+        pwInput.type   = show ? "text" : "password";
+        pwToggle.textContent = show ? "🙈" : "👁";
+    });
+
+    // ── show / hide error ───────────────────────────────────────────────────
+    function showError(msg) {
+        errorBox.textContent    = "⚠ " + msg;
+        errorBox.style.display  = "block";
+        loginBtn.disabled       = false;
+        loginBtn.textContent    = "Sign In";
+    }
+
+    function clearError() {
+        errorBox.style.display = "none";
+    }
+
+    // ── form submit ─────────────────────────────────────────────────────────
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        clearError();
+
+        const email    = document.getElementById("email").value.trim();
+        const password = pwInput.value;
+
+        if (!email || !password) {
+            return showError("Please enter your email and password.");
+        }
+
+        loginBtn.disabled    = true;
+        loginBtn.textContent = "Signing in…";
+
+        try {
+            const res  = await fetch("/api/login", {
+                method:  "POST",
+                headers: { "Content-Type": "application/json" },
+                body:    JSON.stringify({ email, password })
+            });
+
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                // Store display info in localStorage — actual auth is server-side session
+                localStorage.setItem("userName", data.name);
+                localStorage.setItem("userRole", data.role);
+
+                // Show a brief welcome message before redirect
+                welcomeBox.innerHTML =
+                    `Welcome back, <strong>${data.name}</strong>!
+                    <span class="role-badge badge-${data.role}">${data.role}</span>`;
+                welcomeBox.style.display = "block";
+                loginBtn.textContent = "Redirecting…";
+
+                setTimeout(() => {
+                    window.location.href = REDIRECT[data.role] || "/";
+                }, 700);
+
+            } else {
+                showError(data.message || "Invalid email or password.");
+            }
+
+        } catch (err) {
+            showError("Could not reach the server. Please try again.");
+        }
+    });
+
+    // ── clear error when user starts typing again ───────────────────────────
+    document.getElementById("email").addEventListener("input", clearError);
+    pwInput.addEventListener("input", clearError);
+</script>
+
+</body>
+</html>

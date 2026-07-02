@@ -84,3 +84,68 @@ exports.logout = (req, res) => {
         res.redirect("/login");
     });
 };
+
+// POST /api/login — unified staff login (admin, doctor, assistant)
+exports.unifiedLogin = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ success: false, message: "Email and password are required" });
+        }
+
+        // Only allow staff roles — regular "user" accounts cannot use this endpoint
+        const user = await User.findOne({
+            email: email.toLowerCase().trim(),
+            role: { $in: ["admin", "doctor", "assistant"] }
+        });
+
+        if (!user) {
+            return res.status(401).json({ success: false, message: "Invalid email or password" });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, message: "Invalid email or password" });
+        }
+
+        // Regenerate session to prevent session fixation attacks
+        req.session.regenerate((err) => {
+            if (err) return res.status(500).json({ success: false, message: "Session error" });
+
+            // Unified fields used by all protected routes
+            req.session.userId   = user._id.toString();
+            req.session.role     = user.role;
+            req.session.userName = user.name;
+
+            // Role-specific flags kept for backward compatibility with existing middleware
+            if (user.role === "admin") {
+                req.session.isAdmin = true;
+            } else if (user.role === "doctor") {
+                req.session.isDoctor   = true;
+                req.session.doctorId   = user._id.toString();
+                req.session.doctorName = user.name;  // used by getDoctorAppointments filter
+            } else if (user.role === "assistant") {
+                req.session.isAssistant = true;
+            }
+
+            res.json({ success: true, role: user.role, name: user.name });
+        });
+
+    } catch (error) {
+        console.error("Unified login error:", error);
+        res.status(500).json({ success: false, message: "Server error" });
+    }
+};
+
+// GET /api/me — returns logged-in user info from session (used by dashboards)
+exports.getMe = (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+    }
+    res.json({
+        success: true,
+        name: req.session.userName,
+        role: req.session.role
+    });
+};

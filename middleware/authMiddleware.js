@@ -33,6 +33,17 @@ const isDoctorAPI = (req, res, next) => {
     res.status(401).json({ success: false, message: "Doctor access required" });
 };
 
+// ── Assistant ───────────────────────────────────────────────────────────────
+const isAssistant = (req, res, next) => {
+    if (req.session && req.session.isAssistant) return next();
+    res.redirect("/login");
+};
+
+const isAssistantAPI = (req, res, next) => {
+    if (req.session && req.session.isAssistant) return next();
+    res.status(401).json({ success: false, message: "Assistant access required" });
+};
+
 // ── Task ownership (task-manager feature) ─────────────────────────────────
 const isTaskOwner = async (req, res, next) => {
     try {
@@ -60,5 +71,7 @@ module.exports = {
     isAdminAPI,
     isDoctor,
     isDoctorAPI,
+    isAssistant,
+    isAssistantAPI,
     isTaskOwner
 };

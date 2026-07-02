@@ -13,6 +13,8 @@ const registerRoute     = require("./routes/registerRoute.js");
 const authRoute         = require("./routes/authRoute.js");
 const taskRoute         = require("./routes/taskRoute.js");
 
+const { isAssistant } = require("./middleware/authMiddleware.js");
+
 dotenv.config();
 
 const app  = express();
@@ -34,11 +36,16 @@ app.use(session({
 // ── Static files (public/ only) ───────────────────────────────────────────────
 app.use(express.static(path.join(__dirname, "public")));
 
-// Block direct /views/ access — all views must be served through routes
+// Block direct /views/ access — all views must go through protected routes
 app.get("/views/admin.html",        (req, res) => res.redirect("/admin"));
 app.get("/views/userdocter.html",   (req, res) => res.redirect("/doctor"));
 app.get("/views/registerform.html", (req, res) => res.redirect("/register-form"));
-app.get("/views/assistant.html",    (req, res) => res.sendFile(path.join(__dirname, "views/assistant.html")));
+app.get("/views/assistant.html",    (req, res) => res.redirect("/assistant"));
+
+// ── Protected assistant dashboard ─────────────────────────────────────────
+app.get("/assistant", isAssistant, (req, res) => {
+    res.sendFile(path.join(__dirname, "views/assistant.html"));
+});
 
 // ── Default route ─────────────────────────────────────────────────────────────
 app.get("/", (req, res) => {

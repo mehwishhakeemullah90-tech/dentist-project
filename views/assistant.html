@@ -8,6 +8,32 @@
     <title>Assistant Dashboard</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
+        /* ── Top header bar ── */
+        .top-header {
+            background: linear-gradient(135deg, #0f4c81, #2b7de9);
+            color: #fff;
+            padding: 14px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .top-header .title { font-size: 18px; font-weight: 700; }
+        .top-header .user-info { display: flex; align-items: center; gap: 14px; font-size: 14px; }
+        .btn-logout-top {
+            background: rgba(255,255,255,.15);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.3);
+            padding: 7px 16px;
+            border-radius: 7px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: .2s;
+        }
+        .btn-logout-top:hover { background: rgba(255,255,255,.25); color: #fff; }
+    </style>
+    <style>
 
         /* Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -332,6 +358,16 @@ footer{
 </head>
 
 <body>
+
+<!-- ── Top header (name + logout) ── -->
+<div class="top-header">
+    <span class="title">🩺 Assistant Dashboard</span>
+    <div class="user-info">
+        <span id="headerName">Loading…</span>
+        <a href="/logout" class="btn-logout-top">Logout</a>
+    </div>
+</div>
+
     <div class="container-fluid p-2">
         <div class="dashboard-heading">
             <div class="header">
@@ -468,8 +504,20 @@ footer{
         });
 
         $(document).ready(function () {
-            loadAppointments();
-            startAutoRefresh();
+            // Verify session is valid; redirect to login if not
+            $.get("/api/me")
+                .done(function (data) {
+                    if (data.success && data.role === "assistant") {
+                        $("#headerName").text(data.name);
+                        loadAppointments();
+                        startAutoRefresh();
+                    } else {
+                        window.location.href = "/login";
+                    }
+                })
+                .fail(function () {
+                    window.location.href = "/login";
+                });
         });
     </script>
 

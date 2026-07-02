@@ -283,49 +283,9 @@
 
     </div>
 
-    <!-- Fixed Admin Button -->
-    <!-- Fixed Admin Button -->
+    <!-- Single Staff Login button (Admin / Doctor / Assistant → /login) -->
     <div class="admin-fixed">
-        <button onclick="openLogin()">Admin Login</button>
-    </div>
-
-    <!-- Admin Overlay -->
-    <div id="overlay" class="overlay">
-
-        <div class="login-box">
-
-            <span class="close-btn" onclick="closeLogin()">×</span>
-
-            <h2>Admin Login</h2>
-
-            <form id="loginForm">
-
-                <input type="text" id="email" placeholder="Admin Email" required>
-
-                <input type="password" id="password" placeholder="Password" required>
-
-                <button type="submit">
-                    Login
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-    <!-- Doctor Login Overlay -->
-    <div id="doctorOverlay" class="overlay">
-        <div class="login-box">
-            <span class="close-btn" onclick="closeDoctorLogin()">×</span>
-            <h2>👨‍⚕️ Doctor Login</h2>
-            <form id="doctorLoginForm">
-                <input type="email" id="doctorEmail" placeholder="Doctor Email" required>
-                <input type="password" id="doctorPassword" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-            <p id="doctorMsg" style="text-align:center; margin-top:10px; font-size:14px; color:#d9534f;"></p>
-        </div>
+        <button onclick="window.location.href='/login'">Staff Login</button>
     </div>
 
 
@@ -406,66 +366,7 @@
         // --------------------------------------------------------
 
 
-        // Adim BTN
-        // ADMIN LOGIN PAGIN ID N PSWRD
-
-        function openLogin() {
-            document.getElementById("overlay").style.display = "flex";
-        }
-
-        function closeLogin() {
-            document.getElementById("overlay").style.display = "none";
-        }
-
-        document.getElementById("loginForm").addEventListener("submit", async function (e) {
-
-            e.preventDefault();
-
-            const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-
-            try {
-                const res = await fetch("/admin-login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const result = await res.json();
-
-                if (res.ok && result.success) {
-                    closeLogin();
-                    Swal.fire({
-                        title: "Login Successful!",
-                        text: "Welcome Admin",
-                        icon: "success",
-                        confirmButtonText: "Continue"
-                    }).then(() => {
-                        window.location.href = "/admin";
-                    });
-                } else {
-                    Swal.fire({
-                        title: "Login Failed!",
-                        text: result.message || "Invalid Email or Password",
-                        icon: "error",
-                        confirmButtonText: "Try Again"
-                    });
-                }
-
-            } catch (error) {
-                Swal.fire({
-                    title: "Error!",
-                    text: "Server se connection nahi ho saka",
-                    icon: "error",
-                    confirmButtonText: "Try Again"
-                });
-            }
-
-        });
-        // ------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------
-        // ------------------------------------------------------------------------------
-        // patients form 
+        // patients form
 
         $("#appointmentForm").submit(async function (e) {
             e.preventDefault();
@@ -505,52 +406,6 @@
             };
         })
 
-
-        // ── Doctor Login ──────────────────────────────────────────────────────
-        function openDoctorLogin() {
-            document.getElementById("doctorOverlay").style.display = "flex";
-            document.getElementById("doctorMsg").textContent = "";
-        }
-
-        function closeDoctorLogin() {
-            document.getElementById("doctorOverlay").style.display = "none";
-            document.getElementById("doctorLoginForm").reset();
-        }
-
-        document.getElementById("doctorLoginForm").addEventListener("submit", async function (e) {
-            e.preventDefault();
-
-            const email    = document.getElementById("doctorEmail").value;
-            const password = document.getElementById("doctorPassword").value;
-            const msg      = document.getElementById("doctorMsg");
-
-            try {
-                const res = await fetch("/doctor-login", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const result = await res.json();
-
-                if (res.ok && result.success) {
-                    closeDoctorLogin();
-                    Swal.fire({
-                        title: "Login Successful!",
-                        text: "Welcome Dr. " + (result.doctorName || ""),
-                        icon: "success",
-                        confirmButtonText: "Continue"
-                    }).then(() => {
-                        window.location.href = "/doctor";
-                    });
-                } else {
-                    msg.textContent = "❌ " + (result.message || "Invalid email or password");
-                }
-
-            } catch (error) {
-                msg.textContent = "❌ server error";
-            }
-        });
 
         // emergency
 

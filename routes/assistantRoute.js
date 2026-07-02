@@ -1,12 +1,11 @@
 const express = require("express");
-const router = express.Router();
+const router  = express.Router();
 
-const controller = require("../controllers/userAssistant");
+const controller              = require("../controllers/userAssistant");
+const { isAssistantAPI }      = require("../middleware/authMiddleware.js");
 
-// Update
-router.put("/updateAppointment/:id", controller.updateAppointment);
-
-// Delete
-router.delete("/deleteAppointment/:id", controller.deleteAppointment);
+// All assistant API routes require an active assistant session
+router.put("/updateAppointment/:id",    isAssistantAPI, controller.updateAppointment);
+router.delete("/deleteAppointment/:id", isAssistantAPI, controller.deleteAppointment);
 
 module.exports = router;
